@@ -5,12 +5,9 @@ require_once 'src/functions.php';
 $testArr = ['test1', 'test2', 'test3'];
 
 // task 1
-echo "<h2> task 1</h2>";
+echo "<h2> task 1</h2> ";
 
-$resTest1 = task1($testArr, true);
-
-echo $resTest1;
-
+echo task1($testArr, true);
 
 
 //task 2
