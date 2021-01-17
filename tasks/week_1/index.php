@@ -59,7 +59,7 @@ $repl = str_replace('Две', 'Три', $str);
 echo "<br>$repl";
 
 
-//task 6
+//task 6 test
 echo "<h2> task 6 </h2>";
 
 include 'test.txt';
