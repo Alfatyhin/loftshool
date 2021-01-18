@@ -91,3 +91,9 @@ function task3($rowMax, $collMax)
         trigger_error ( "используйте только целые числа");
     }
 }
+
+function task4($fname)
+{
+    $filecontent = file_get_contents('test.txt');
+    echo $filecontent;
+}

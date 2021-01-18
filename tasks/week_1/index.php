@@ -59,4 +59,11 @@ echo "<br>$repl";
 //task 6 test7
 echo "<h2> task 6 </h2>";
 
-include 'test.txt';
+$fname = 'test.txt';
+if (!file_exists($fname)) {
+    $fp = fopen($fname, 'w');
+    fwrite($fp, 'Hello again!');
+    fclose($fp);
+}
+
+task4($fname);
