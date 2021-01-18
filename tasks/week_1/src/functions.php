@@ -1,5 +1,11 @@
 <?php
-
+//test function
+function printPre($val)
+{
+    echo "<pre>";
+    print_r($val);
+    echo "</pre>";
+}
 function task1($array, $flag = false)
 {
     $result = '';
@@ -17,31 +23,45 @@ function task1($array, $flag = false)
 }
 
 
-function task2(string $operant, ...$arr): string
+function task2(string $operant, ...$arr)
 {
     $num1 = array_shift($arr);
     $res = $num1;
+    $err = 0;
     foreach ($arr as $k => $num) {
-        switch ($operant) {
-            case '+':
-                $res += $num;
-                break;
-            case '-':
-                $res -= $num;
-                break;
-            case '/':
-                $res = $res / $num;
-                break;
-            case '*':
-                $res = $res * $num;
-                break;
-            default:
-                $res = "не допустимый оператор";
-        }
-    }
 
-    $out = implode(" $operant ", $arr);
-    return "$num1 $operant $out = $res";
+        if (is_int($num) || is_float($num)) {
+            if ($num == 0 && $operant == '/') {
+                trigger_error('на ноль делить нельзя');
+                $err = 1;
+            } else {
+                switch ($operant) {
+                    case '+':
+                        $res += $num;
+                        break;
+                    case '-':
+                        $res -= $num;
+                        break;
+                    case '/':
+                        $res = $res / $num;
+                        break;
+                    case '*':
+                        $res = $res * $num;
+                        break;
+                    default:
+                        $res = "не допустимый оператор";
+                }
+            }
+        } else {
+            $err = 1;
+            trigger_error('используйте числа');
+        }
+
+    }
+    if ($err == 0) {
+        $out = implode(" $operant ", $arr);
+        return "$num1 $operant $out = $res";
+    }
 }
 
 
@@ -61,7 +81,6 @@ function task3($rowMax, $collMax)
 
             for ($column = 1; $column <= $collMax; $column++) {
                 $res = $line * $column;
-
                 $str .= "<td title='$line * $column'> $res </td>";
             }
             $str .= "</tr>";
@@ -69,6 +88,6 @@ function task3($rowMax, $collMax)
         $str .= "</table>";
         return $str;
     } else {
-        return "<p> используйте только целые числа</p>";
+        trigger_error ( "используйте только целые числа");
     }
 }
