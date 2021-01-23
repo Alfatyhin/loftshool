@@ -31,7 +31,3 @@ $users2 = json_decode(file_get_contents('users.json'), true);
 task1($users2);
 
 
-//task 4.1
-echo "<h2> task 4 </h2>";
-
-include 'src/TarifBasic.php';
