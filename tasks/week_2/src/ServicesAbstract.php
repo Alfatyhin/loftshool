@@ -17,4 +17,6 @@ abstract class ServicesAbstract implements iServices
         $this->result = $time * $this->priceHour;
         return $this->result;
     }
+
+
 }

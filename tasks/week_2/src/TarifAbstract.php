@@ -42,12 +42,19 @@ abstract class TarifAbstract implements iCountTarife
         // и если возможно то как
         // но по крайне мере так работает )))
         $service = new $serviceName($serviceName);
-        $this->count = $this->count + $service->countService($this->minutes);
+        $this->count += $service->countService($this->minutes);
         /* наблюдаемая прблема что можно боее одного раза добавить сервис
          но можнт это и плюс в случае например 2 кофе
          и вообще такая проверка не задана заданием
          и дожна быть возможность удалить услугу но это выходит за рамки задания
         */
+    }
+
+    // проверка получения статической функции
+    // так тоже работает
+    public function testStats($serviceName)
+    {
+        $this->count += $serviceName::count($this->minutes);
     }
 
     // возвращаем значение дистанция

@@ -16,8 +16,9 @@ echo "<br>TarifBase <br>";
 $carCher1 = new TarifBase(5,6);
 // добавляем услуги
 $carCher1->addServices('ServiceGPS');
+$carCher1->testStats('ServiceGPS');
 //$carCher1->addServices('driver');
-//получаем результвт 68 + 15 = 83
+//получаем результвт 68 + 15 = 83 + 15 = 98
 echo $carCher1->getCount();
 
 echo "<br>TarifHour <br>";
