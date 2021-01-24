@@ -36,12 +36,8 @@ abstract class TarifAbstract implements iCountTarife
       теоретически надо задать возможность передавать время усуги в параметре,
       а если нет то использовать время объекта
     */
-    public function addServices($serviceName)
+    public function addServices($service)
     {
-        // не знаю возможно ли вызвать функцию класса не создавая его екземпляр
-        // и если возможно то как
-        // но по крайне мере так работает )))
-        $service = new $serviceName($serviceName);
         $this->count += $service->countService($this->minutes);
         /* наблюдаемая прблема что можно боее одного раза добавить сервис
          но можнт это и плюс в случае например 2 кофе
@@ -50,12 +46,6 @@ abstract class TarifAbstract implements iCountTarife
         */
     }
 
-    // проверка получения статической функции
-    // так тоже работает
-    public function testStats($serviceName)
-    {
-        $this->count += $serviceName::count($this->minutes);
-    }
 
     // возвращаем значение дистанция
     public function getDistance(): int

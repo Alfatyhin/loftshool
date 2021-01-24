@@ -7,7 +7,6 @@ class ServiceDriver extends ServicesAbstract
 
     public function countService($time)
     {
-        $this->result = $this->priceHour;
-        return $this->result;
+        return $this->priceHour;
     }
 }

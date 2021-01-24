@@ -5,7 +5,6 @@ abstract class ServicesAbstract implements iServices
 {
     protected $priceHour;
     protected $serviceName;
-    protected $result;
 
     public function __construct($name)
     {
