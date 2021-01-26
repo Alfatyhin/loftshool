@@ -22,7 +22,8 @@ if (!empty($_POST['callback'])) {
 echo '<html> <head></head> <body>';
 
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=loftscool", 'loftphp', 'ss135sdjfhh');
+    require_once '../config_bd.php';
+    $pdo = new PDO("mysql:host=$host;dbname=$bdName", $bdlogin, $bdpas);
 } catch (PDOException $e) {
     echo $e->getMessage();
     die;
