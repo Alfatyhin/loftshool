@@ -8,15 +8,24 @@ function printPre($val)
 }
 
 
+
+function getNames($data)
+{
+    return $data['name'];
+}
+function getAge ($data)
+{
+    return $data['age'];
+}
+
 function task1($array)
 {
-    foreach ($array as $k => $data) {
-        $names[] = $data['name'];
-        $allAge += $data['age'];
-    }
+    $names = array_map('getNames', $array);
+
     foreach (array_count_values($names) as $name => $count) {
         echo "$name = $count чел.<br>";
     }
-    $srage = $allAge / ($k + 1);
-    echo "Средний возраст = $srage лет";
+
+    $srage =  array_sum(array_map('getAge', $array)) / sizeof($array);
+    echo "Средний возраст = $srage лет <br>";
 }

@@ -26,3 +26,4 @@ file_put_contents('users.json',  json_encode($users));
 $users2 = json_decode(file_get_contents('users.json'), true);
 
 task1($users2);
+
