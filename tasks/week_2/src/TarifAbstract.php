@@ -7,30 +7,38 @@ abstract class TarifAbstract implements iCountTarife
     protected $priceMinute;
     protected $distance;
     protected $minutes;
-    protected $count;
+    /** @var iServices */
+    protected $services;
 
     // конструктор создает объект в классе наследнике
     public function __construct(int $distance, int $minutes)
     {
         $this->distance = $distance;
         $this->minutes = $minutes;
-        // вызываем функцию которая записывает общую сумму при создании объекта
-        $this->count();
+
     }
 
     // убрал из интарфейса чтоб создать её как protected
+    // так как некоторые тарифы переопределяют эту фунцию то подсчет сервисов в getCount
     protected function count()
     {
-        $this->count = $this->distance * $this->priceKilometer + $this->minutes * $this->priceMinute;
+        $count = $this->distance * $this->priceKilometer + $this->minutes * $this->priceMinute;
+        return $count;
     }
 
     public function getCount()
     {
-        return $this->count;
+        $summ = $this->count();
+        if ($this->services) {
+            foreach ($this->services as $key => $service) {
+                $summ += $service->countService($this->minutes);
+            }
+        }
+        return $summ;
     }
 
     /* поскольку используется время тарифа то либо его надо передавать либо получать из объекта и использовать
-    но поскольку доп услуга может использовать свой алгоритм обработки времени то лучше нередавать
+    но поскольку доп услуга может использовать свой алгоритм обработки времени то лучше передавать
       ** кстати у услуги может быть отдельный учет времени,
       например радио работало 45 минут а сама поедка длилась 1.5 часа
       теоретически надо задать возможность передавать время усуги в параметре,
@@ -38,7 +46,14 @@ abstract class TarifAbstract implements iCountTarife
     */
     public function addServices($service)
     {
-        $this->count += $service->countService($this->minutes);
+        // без этого ругается
+        if (!$this->services) {
+            $this->services = array();
+        }
+        // добавляем в массив сервисов
+        // это логичнее так как мы можем в будущем получить список сервисов как свойство обекта
+        array_push($this->services, $service);
+        return $this;
         /* наблюдаемая прблема что можно боее одного раза добавить сервис
          но можнт это и плюс в случае например 2 кофе
          и вообще такая проверка не задана заданием

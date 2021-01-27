@@ -10,7 +10,8 @@ class TarifHour extends TarifAbstract
 
     public function count()
     {
-        $this->count = $this->distance * $this->priceKilometer + ceil($this->minutes / 60) * $this->priceMinute;
+        $summ = $this->distance * $this->priceKilometer + ceil($this->minutes / 60) * $this->priceMinute;
+        return $summ;
     }
 
 
