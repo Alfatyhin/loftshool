@@ -5,12 +5,17 @@
 
     </head>
     <body>
-         <?php if ($user): ?>
+         <? if ($user): ?>
              <p>Вы вошли как <? echo $user->getName(); ?>
                  || <a href='/blog'> перейти в блог </a> || <a href="/user/logout">Выйти</a>
              </p>
+        <? endif; ?>
+         <? if (!$user): ?>
+             <p>
+                 || <a href='/user/regisrer'> Регистрация </a> || <a href="/user/login">Вход</a> ||
+             </p>
+         <? endif; ?>
 
-        <?php endif; ?>
 
 
 

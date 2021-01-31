@@ -28,7 +28,7 @@ class User extends AbstractController
                 $this->redirect('/');
             }
         }
-        return $this->view->render('User/register.phtml', [
+        return $this->view->render('User/login.phtml', [
 
         ]);
     }
