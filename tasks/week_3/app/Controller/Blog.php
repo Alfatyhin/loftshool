@@ -14,7 +14,7 @@ class Blog extends AbstractController
         if (!$this->user) {
             $this->redirect('/user/login');
         }
-        //$message = new Message();
+
 
         // получаем записи
         $blogMessages = Message::getMessages(20);

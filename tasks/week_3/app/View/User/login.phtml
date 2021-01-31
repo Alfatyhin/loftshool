@@ -1,0 +1,33 @@
+<?php  /** @var \App\Model\User $user */ ?>
+
+<html>
+<head>
+
+</head>
+<body>
+
+
+<?php
+
+if ($this->data['error']) {
+    echo '<span style="color: red;" >' . $this->data['error'] . '</span>';
+}
+
+?>
+
+<h1> Регистрация </h1>
+
+<form method="post" >
+    <p> email
+        <input type="text" name="email" />
+    </p>
+    <p> Пароль
+        <input type="password" name="password" />
+    </p>
+    <input type="submit" value="Войти" formaction="/user/login">
+
+</form>
+</body>
+
+</html>
+
