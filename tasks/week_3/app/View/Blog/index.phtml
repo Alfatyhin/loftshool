@@ -21,29 +21,43 @@ use App\Model\User;
 
 
     <?
+        if ($this->data['error']) {
+            echo '<span style="color: red;" >' . $this->data['error'] . '</span>';
+        }
         // выводим сообщения
         if ($blogMessages) {
-            var_dump($blogMessages['0']);
 
             foreach ($blogMessages as $k => $values) {
+                $postId = $values['id'];
                 $text = $values['message_text'];
                 $date = $values['create_date'];
                 $userMessage = User::getById($values['user_id']);
                 $useName = $userMessage->getName();
 
-                echo "<div style='width: 50%; border: 1px solid;'> <pre>$useName <br> $text </pre>
-                    <b>($date)</b> </div> <br>";
+                if (PROGECT_ADMINS[$user->getId()]) {
+                    $delButton = "<br> <br><form action='/blog/delete' method='post'>
+                        <input type='hidden' name='post_id' value='$postId' />
+                        <input type='submit' name='delete' value=' УДАЛИТЬ ' /> 
+                     </form>";
+                }
+
+                echo "<div style='padding: 20px; width: 50%; border: 1px solid;'> $useName <b>($date)</b><br>
+                    <div style='white-space: pre-wrap;'>$text</div>
+                     $delButton</div> <br>";
             }
         }
     ?>
-
+    <div style="margin: 40px;">
     <p>Добавить запись в блог</p>
-    <form method="post" >
-        <p> Введите текст </p>
-            <textarea style="width: 30%; height: 200px;" name="message_text" ></textarea> <br> <br>
+        <form enctype="multipart/form-data" method="post" >
+            <p>выберите изображение для вашего сообщения</p>
+            <input type="file" name="photo"> <br>
+            <p> Введите текст </p>
+                <textarea style="width: 30%; height: 200px;" name="message_text" ></textarea> <br> <br>
 
-        <input type="submit" value="Сохранить сообщение" formaction="/blog/save">
+            <input type="submit" value="Сохранить сообщение" formaction="/blog/save">
 
-    </form>
+        </form>
+    </div>
 </body>
 </html>

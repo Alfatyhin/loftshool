@@ -130,4 +130,14 @@ class Message extends AbstractModel
         return $data;
     }
 
+    // функция удаления сообщения
+    public static function deleteMessage($id)
+    {
+        $db = Db::getInstance();
+        $select = "DELETE FROM blog Where id = $id";
+        $del = $db->exec($select, __METHOD__);
+
+        return $del;
+    }
+
 }
