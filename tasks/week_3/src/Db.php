@@ -43,6 +43,7 @@ class Db
         return $this->pdo;
     }
 
+    // возвращает данные по запросу
     public function fetchAll(string $query, $_method, array $params = [])
     {
         $t = microtime(true);
@@ -63,6 +64,7 @@ class Db
         return $data;
     }
 
+    // для получения одной записи
     public function fetchOne(string $query, $_method, array $params = [])
     {
         $t = microtime(true);
@@ -87,6 +89,7 @@ class Db
         return reset($data);
     }
 
+    // для записи или удаления
     public function exec(string $query, $_method, array $params = []): int
     {
         $t = microtime(1);
