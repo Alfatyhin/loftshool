@@ -1,0 +1,49 @@
+<?php
+/** @var User $user */
+
+use App\Model\User;
+
+/** @var \App\Model\Message $message */
+
+?>
+
+<html>
+<head>
+
+</head>
+<body>
+    <p>Вы вошли как <? echo $user->getName(); ?>
+        <a href="/user/logout">Выйти</a>
+    </p>
+    <? if ($message):?>
+        <p style="color: green;">сообщение отправлено</p>
+    <? endif; ?>
+
+
+    <?
+        // выводим сообщения
+        if ($blogMessages) {
+            var_dump($blogMessages['0']);
+
+            foreach ($blogMessages as $k => $values) {
+                $text = $values['message_text'];
+                $date = $values['create_date'];
+                $userMessage = User::getById($values['user_id']);
+                $useName = $userMessage->getName();
+
+                echo "<div style='width: 50%; border: 1px solid;'> <pre>$useName <br> $text </pre>
+                    <b>($date)</b> </div> <br>";
+            }
+        }
+    ?>
+
+    <p>Добавить запись в блог</p>
+    <form method="post" >
+        <p> Введите текст </p>
+            <textarea style="width: 30%; height: 200px;" name="message_text" ></textarea> <br> <br>
+
+        <input type="submit" value="Сохранить сообщение" formaction="/blog/save">
+
+    </form>
+</body>
+</html>

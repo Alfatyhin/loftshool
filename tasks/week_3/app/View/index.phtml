@@ -1,0 +1,19 @@
+<?php /** @var \App\Model\User $user */ ?>
+
+<html>
+    <head>
+
+    </head>
+    <body>
+         <?php if ($user): ?>
+             <p>Вы вошли как <? echo $user->getName(); ?>
+                 <a href="/user/logout">Выйти</a>
+             </p>
+
+        <?php endif; ?>
+
+
+
+    </body>
+</html>
+

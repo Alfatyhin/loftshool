@@ -12,7 +12,7 @@ class Route
     {
         if (!$this->processed) {
             $parse = parse_url($_SERVER['REQUEST_URI']);
-            $path = $parse['path'];
+            $path = preg_replace('@/$@', '', $parse['path']);
 
             if (($route = $this->routs[$path] ?? null) !== null) {
                 $this->controllerName = $route[0];
@@ -22,9 +22,7 @@ class Route
 
                 $this->controllerName = '\\App\\Controller\\' . ucfirst(strtolower($parts[1]));
                 $this->actionName = strtolower($parts[2] ?? 'index');
-                if ($this->actionName == '') {
-                    $this->actionName = 'index';
-                }
+
 
             }
             $this->processed = true;

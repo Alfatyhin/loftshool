@@ -17,12 +17,14 @@ class Application
     public function run()
     {
         try {
+            session_start();
             $this->addRoutes();
             $this->initController();
             $this->initAction();
 
             $view = new View();
             $this->controller->setView($view);
+            $this->initUser();
 
 
             $content = $this->controller->{$this->actionName}();
@@ -37,10 +39,21 @@ class Application
         }
     }
 
+    private function initUser()
+    {
+        $id = $_SESSION['id'] ?? null;
+        if ($id) {
+            $user = \App\Model\User::getById($id);
+            if ($user) {
+                $this->controller->setUser($user);
+            }
+        }
+    }
+
     private function addRoutes()
     {
         ///** @uses \App\Controller\User::loginAction() */
-        //$this->route->addRoute('/user/', \App\Controller\User::class, 'index');
+        $this->route->addRoute('', \App\Controller\Index::class, 'index');
         ///** @uses \App\Controller\User::registerAction() */
         //$this->route->addRoute('/user/register', \App\Controller\User::class, 'register');
     }
@@ -59,7 +72,7 @@ class Application
     {
         $actionName = $this->route->getActionName();
         if (!method_exists($this->controller, $actionName)) {
-            throw new RouteExeption('Action \'' . $actionName . '\' not found in ' . get_class($this->controller));
+            throw new RouteExeption('Action [' . $actionName . '] not found in ' . get_class($this->controller));
         }
 
         $this->actionName = $actionName;
