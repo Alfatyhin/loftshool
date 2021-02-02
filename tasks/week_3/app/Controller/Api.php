@@ -20,7 +20,9 @@ class Api extends AbstractController
             return $this->response(['error' => 'no message']);
         }
 
-        $data = array_map(function (Message $message) {
+        $data = array_map(function ($message) {
+           $message = new Message($message);
+
            return $message->getData();
         }, $messages);
 

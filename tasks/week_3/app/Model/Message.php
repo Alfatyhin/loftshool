@@ -183,7 +183,7 @@ class Message extends AbstractModel
             'autor_id' => $this->useId,
             'text' => $this->text,
             'create_date' => $this->createDate,
-            'image' => $this->image
+            //'image' => $this->image
         ];
     }
 
