@@ -15,6 +15,9 @@ use App\Model\User;
         width: 50%;
         border: 1px solid;
     }
+    .message form {
+        float: right;
+    }
     .message_txt {
         white-space: pre-wrap;
     }
@@ -54,7 +57,7 @@ use App\Model\User;
                 $useName = $userMessage->getName();
 
                 if (PROGECT_ADMINS[$user->getId()]) {
-                    $delButton = "<br> <br><form action='/blog/delete' method='post'>
+                    $delButton = "<form action='/blog/delete' method='post'>
                         <input type='hidden' name='post_id' value='$postId' />
                         <input type='submit' name='delete' value=' УДАЛИТЬ ' /> 
                      </form>";
