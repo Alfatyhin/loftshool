@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Model\Message;
-use App\Model\User as UserModel;
 use Core\AbstractController;
 
 
