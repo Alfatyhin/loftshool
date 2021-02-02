@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\User as UserModel;
 use Core\AbstractController;
+use Core\SmartSession;
 
 class User extends AbstractController
 {
@@ -46,7 +47,9 @@ class User extends AbstractController
                 $this->view->assign('error', 'не все поля заполнены');
             } else {
                 // проверяем что пароли совпадают
-                if ($password2 != $password) {
+                if (mb_strlen($password) < 5) {
+                    $this->view->assign('error', 'пароль слишком короткий');
+                } elseif ($password2 != $password) {
                     $this->view->assign('error', 'пароли не совпадают');
                 } else {
                     // проверка что пользователя с таким емейл нет
@@ -64,10 +67,12 @@ class User extends AbstractController
                         // проверка что пользователь создан
                         $userMail = UserModel::getByEmail($email);
                         if ($userMail) {
-                            $_SESSION['id'] = $user->getId();
                             $this->setUser($user);
 
-                            $this->redirect('/');
+                            $this->view->assign('error', 'Вы успешно зарегистрировалисть');
+                            return $this->view->render('User/login.phtml', [
+
+                            ]);
                         } else {
                             $this->view->assign('error', 'ошибка создания пользователя');
                         }
@@ -75,6 +80,9 @@ class User extends AbstractController
 
                 }
             }
+            return $this->view->render('User/register.phtml', [
+
+            ]);
         } else {
             $this->redirect('User/register.phtml');
         }

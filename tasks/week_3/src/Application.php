@@ -8,6 +8,7 @@ class Application
     /** @var AbstractController */
     private $controller;
     private $actionName;
+    private $session;
 
     public function __construct()
     {
@@ -17,7 +18,7 @@ class Application
     public function run()
     {
         try {
-            session_start();
+            $this->session = new SmartSession();
             $this->addRoutes();
             $this->initController();
             $this->initAction();
@@ -54,7 +55,7 @@ class Application
     {
         /** @uses \App\Controller\User::loginAction() */
         $this->route->addRoute('', \App\Controller\Index::class, 'index');
-        /** @uses \App\Controller\User::registerUser() */
+        /** @uses \App\Controller\User::registerUserAction() */
         $this->route->addRoute('/user/registeruser', \App\Controller\User::class, 'registerUser');
     }
 
