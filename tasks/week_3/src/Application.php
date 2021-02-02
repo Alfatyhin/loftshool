@@ -18,15 +18,17 @@ class Application
     public function run()
     {
         try {
-            $this->session = new SmartSession();
+            $session = new Session();
+            $session->init();
             $this->addRoutes();
             $this->initController();
             $this->initAction();
 
             $view = new View();
             $this->controller->setView($view);
+            $this->controller->setSession($session);
             $this->initUser();
-
+            $session->setValue('test', '123');
 
             $content = $this->controller->{$this->actionName}();
 
@@ -42,7 +44,9 @@ class Application
 
     private function initUser()
     {
-        $id = $_SESSION['id'] ?? null;
+        $session = new Session();
+        $id = $session->getValue('id');
+
         if ($id) {
             $user = \App\Model\User::getById($id);
             if ($user) {
@@ -66,7 +70,7 @@ class Application
     {
         $controllerName = $this->route->getControllerName();
         if (!class_exists($controllerName)) {
-            throw new RouteExeption('Cant find controller ' . $controllerName);
+            header('HTTP/1.0 404 Not Found');
         }
 
         $this->controller = new $controllerName();

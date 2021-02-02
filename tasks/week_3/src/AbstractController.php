@@ -9,6 +9,9 @@ abstract class AbstractController
     protected $view;
     /** @var User */
     protected $user;
+    /** @var Session */
+    protected $session;
+
 
     protected function redirect(string $url)
     {
@@ -30,5 +33,9 @@ abstract class AbstractController
         echo "this inexAction";
     }
 
+    public function setSession(Session $session)
+    {
+        $this->session = $session;
+    }
 
 }

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Model\User as UserModel;
 use Core\AbstractController;
-use Core\SmartSession;
 
 class User extends AbstractController
 {
@@ -22,9 +21,7 @@ class User extends AbstractController
                 if ($user->getPassword() != UserModel::getPasswordHash($password)) {
                     $this->view->assign('error', 'не верный логин или пароль');
                 }
-                $_SESSION['id'] = $user->getId();
-                //
-                //$this->setUser($user);
+                $this->session->setValue('id', $user->getId());
 
                 $this->redirect('/');
             }
@@ -106,7 +103,7 @@ class User extends AbstractController
 
     public function logoutAction()
     {
-        session_destroy();
+        $this->session->destroy();
 
         $this->redirect('/');
     }
