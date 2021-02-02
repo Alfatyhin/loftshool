@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Model\Message;
 use Core\AbstractController;
+use Core\Application;
 
 
 class Blog extends AbstractController
@@ -33,7 +34,9 @@ class Blog extends AbstractController
 
             // прикрепляем картинку к посту
             if (isset($_FILES['photo']['tmp_name'])) {
-                $filename = microtime() . '-' . mt_rand(100, 100000) . '_' . $_FILES['photo']['name'];
+
+                $filename = Application::randNameFile($_FILES['photo']['name'],PROGECT_LOAD_DIR . "images/");
+
                 if (move_uploaded_file($_FILES['photo']['tmp_name'], PROGECT_LOAD_DIR . "images/$filename")) {
 
                 } else {
