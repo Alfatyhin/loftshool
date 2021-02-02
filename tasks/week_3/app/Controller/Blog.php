@@ -33,10 +33,9 @@ class Blog extends AbstractController
 
             // прикрепляем картинку к посту
             if (isset($_FILES['photo']['tmp_name'])) {
-                $filename = mt_rand(100, 1000) . '_' . $_FILES['photo']['name'];
+                $filename = microtime() . '-' . mt_rand(100, 100000) . '_' . $_FILES['photo']['name'];
                 if (move_uploaded_file($_FILES['photo']['tmp_name'], PROGECT_LOAD_DIR . "images/$filename")) {
 
-                    $text = '<img style="width: 150px;" src="/loading/images/' . $filename . '" /><br>' . $text;
                 } else {
                     $this->view->assign('error','file not loaded');
                 }
@@ -45,6 +44,7 @@ class Blog extends AbstractController
             // create object message
             $message = new Message();
             $message->setText($text)
+                ->setImage($filename)
                 ->setUseId($userId);
 
             // model save to db

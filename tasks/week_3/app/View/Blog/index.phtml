@@ -9,7 +9,20 @@ use App\Model\User;
 
 <html>
 <head>
-
+<style>
+    .message {
+        padding: 20px;
+        width: 50%;
+        border: 1px solid;
+    }
+    .message_txt {
+        white-space: pre-wrap;
+    }
+    .message img {
+        width: 40%;
+        margin: 20px;
+    }
+</style>
 </head>
 <body>
     <p>Вы вошли как <? echo $user->getName(); ?>
@@ -31,6 +44,12 @@ use App\Model\User;
                 $postId = $values['id'];
                 $text = $values['message_text'];
                 $date = $values['create_date'];
+                $imageUrl = $values['image'];
+                if ($imageUrl) {
+                    $image = "<img src='/loading/images/$imageUrl' />";
+                } else {
+                    $image = '';
+                }
                 $userMessage = User::getById($values['user_id']);
                 $useName = $userMessage->getName();
 
@@ -41,9 +60,9 @@ use App\Model\User;
                      </form>";
                 }
 
-                echo "<div style='padding: 20px; width: 50%; border: 1px solid;'> $useName <b>($date)</b><br>
-                    <div style='white-space: pre-wrap;'>$text</div>
-                     $delButton</div> <br>";
+                echo "<div class='message' > $useName <b>($date)</b>$delButton<br>
+                    <div class='message_txt'> $image <br> $text</div>
+                     </div> <br>";
             }
         }
     ?>

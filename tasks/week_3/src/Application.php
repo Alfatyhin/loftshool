@@ -57,6 +57,9 @@ class Application
         $this->route->addRoute('', \App\Controller\Index::class, 'index');
         /** @uses \App\Controller\User::registerUserAction() */
         $this->route->addRoute('/user/registeruser', \App\Controller\User::class, 'registerUser');
+        /** @uses \App\Controller\Api::getUserMessagesAction() */
+        $this->route->addRoute('/api/getusermessages', \App\Controller\Api::class, 'getUserMessages');
+
     }
 
     private function initController()

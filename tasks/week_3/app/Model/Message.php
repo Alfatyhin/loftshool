@@ -15,10 +15,13 @@ class Message extends AbstractModel
     private $text;
     private $createDate;
     private $useId;
+    private $image;
 
 
     // конструктор модели сообщения
     // заполняется в контроллере Blog
+
+
     public function __construct($data = [])
     {
         if ($data) {
@@ -26,6 +29,7 @@ class Message extends AbstractModel
             $this->useId = $data['user_id'];
             $this->text = $data['message_text'];
             $this->createDate = $data['create_date'];
+            $this->image = $data['image'];
         }
     }
 
@@ -97,16 +101,34 @@ class Message extends AbstractModel
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image): self
+    {
+        $this->image = $image;
+        return $this;
+    }
+
     // сохраняем сообщение в базу
     public function save()
     {
         $db = Db::getInstance();
-        $insert = "INSERT INTO blog (`user_id`, `message_text`, `create_date`) VALUES (
-        :user_id, :message_text , :date
+        $insert = "INSERT INTO blog (`user_id`, `message_text`, `image`, `create_date`) VALUES (
+        :user_id, :message_text , :image, :date
         )";
         $db->exec($insert, __METHOD__, [
             ':user_id' => $this->useId,
             ':message_text' => $this->text,
+            ':image' => $this->image,
             ':date' => Date('Y-m-d H:i:s')
         ]);
 
@@ -130,6 +152,20 @@ class Message extends AbstractModel
         return $data;
     }
 
+    // получаем сообщения пользователя из базы
+    public static function getUserMessages(int $userId, int $limit)
+    {
+        $db = Db::getInstance();
+        $select = "SELECT * FROM blog WHERE user_id = $userId LIMIT $limit";
+        $data = $db->fetchAll($select, __METHOD__);
+
+        if (!$data) {
+            return null;
+        }
+
+        return $data;
+    }
+
     // функция удаления сообщения
     public static function deleteMessage($id)
     {
@@ -139,5 +175,18 @@ class Message extends AbstractModel
 
         return $del;
     }
+
+    public function getData()
+    {
+        return [
+            'id' => $this->id,
+            'autor_id' => $this->useId,
+            'text' => $this->text,
+            'create_date' => $this->createDate,
+            'image' => $this->image
+        ];
+    }
+
+
 
 }
