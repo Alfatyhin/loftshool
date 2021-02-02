@@ -46,7 +46,6 @@ class Application
     {
         $session = new Session();
         $id = $session->getValue('id');
-
         if ($id) {
             $user = \App\Model\User::getById($id);
             if ($user) {
@@ -63,6 +62,9 @@ class Application
         $this->route->addRoute('/user/registeruser', \App\Controller\User::class, 'registerUser');
         /** @uses \App\Controller\Api::getUserMessagesAction() */
         $this->route->addRoute('/api/getusermessages', \App\Controller\Api::class, 'getUserMessages');
+       /** @uses \App\Controller\Index::notFound */
+        $this->route->addRoute('/notfound', \App\Controller\Index::class, 'notFound');
+
 
     }
 
@@ -70,7 +72,7 @@ class Application
     {
         $controllerName = $this->route->getControllerName();
         if (!class_exists($controllerName)) {
-            header('HTTP/1.0 404 Not Found');
+            throw new RedirectExeption('/notfound');
         }
 
         $this->controller = new $controllerName();
