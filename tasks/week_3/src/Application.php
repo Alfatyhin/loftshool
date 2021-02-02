@@ -52,10 +52,10 @@ class Application
 
     private function addRoutes()
     {
-        ///** @uses \App\Controller\User::loginAction() */
+        /** @uses \App\Controller\User::loginAction() */
         $this->route->addRoute('', \App\Controller\Index::class, 'index');
-        ///** @uses \App\Controller\User::registerAction() */
-        //$this->route->addRoute('/user/register', \App\Controller\User::class, 'register');
+        /** @uses \App\Controller\User::registerUser() */
+        $this->route->addRoute('/user/registeruser', \App\Controller\User::class, 'registerUser');
     }
 
     private function initController()
