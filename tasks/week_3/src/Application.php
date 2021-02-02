@@ -82,13 +82,4 @@ class Application
         $this->actionName = $actionName;
     }
 
-    public static function randNameFile($nameFile, $directory)
-    {
-        $name =  $filename = microtime() . '-' . mt_rand(100, 100000) . '_' . $nameFile;
-
-        if (file_exists($directory . $nameFile)) {
-            self::randNameFile($nameFile, $directory);
-        }
-        return $name;
-    }
 }
