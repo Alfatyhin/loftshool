@@ -1,6 +1,6 @@
 <?php
 
-require_once ('function_task_0.php');
+require_once('function_task_0.php');
 
 $userName = "Igor";
 

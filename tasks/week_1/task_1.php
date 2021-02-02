@@ -124,7 +124,7 @@ table th {
 echo "<table rules='all' border='3'>";
 
 echo "<tr><th> / </th>";
-for ($header = 1; $header <= 10; $header++){
+for ($header = 1; $header <= 10; $header++) {
     echo "<th> $header </th>";
 }
 echo "</tr>";
@@ -133,7 +133,7 @@ for ($line=1; $line <= 10; $line++) {
     echo "<tr><th> $line </th>";
     $lineEven = ($line % 2 == 0);
 
-    for ($column = 1; $column <= 10; $column++){
+    for ($column = 1; $column <= 10; $column++) {
         $res = $line * $column;
 
         $columnEven = ($column % 2 == 0);
@@ -151,4 +151,3 @@ for ($line=1; $line <= 10; $line++) {
 }
 
 echo "</table>";
-

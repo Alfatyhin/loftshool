@@ -29,7 +29,6 @@ function task2(string $operant, ...$arr)
     $res = $num1;
     $err = 0;
     foreach ($arr as $k => $num) {
-
         if (is_int($num) || is_float($num)) {
             if ($num == 0 && $operant == '/') {
                 trigger_error('на ноль делить нельзя');
