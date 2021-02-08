@@ -30,7 +30,8 @@ class Blog extends AbstractController
         }
 
         // получаем записи
-        $count = 5;
+        $count = 5; // кол-во записей по дефолту
+        // count + 1 делается для того чтобы знать можно ли показывать кнопку листания назад
         $blogMessages = Message::getMessages($count + 1, $id);
 
         // изображения в серой гамме

@@ -48,10 +48,15 @@ use App\Model\User;
         if ($this->data['error']) {
             echo '<span style="color: red;" >' . $this->data['error'] . '</span>';
         }
-        // выводим сообщения
+        // выводим сообщения если они есть
         if ($blogMessages) {
             $sizemess = sizeof($blogMessages);
+
+            // если массив больше количества выводимых записей (а он запросом к базе всегда пытается вывести count +1)
+            // то значит там есть как минимум одна запись
+            // выводим кнопку листания страницы блога назад
             if ($sizemess > $count) {
+                // приводим размер массива к count - количеству выводимых записей
                 array_shift($blogMessages);
                 $before = $blogMessages[0]['id'];
                 $beforeTxt = "<button type='submit' name='before' value='$before'> < </button>";
