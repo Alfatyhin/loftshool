@@ -15,13 +15,41 @@ class Blog extends AbstractController
             $this->redirect('/user/login');
         }
 
+        $id = 0;
+        $back = [];
+
+        if ($_POST['before']) {
+            $back = $_POST['back'];
+            $id = $_POST['before'];
+        }
+        if ($_POST['next']) {
+            $back = $_POST['back'];
+            array_shift($back);
+            $id = $back[0] + 1;
+            array_shift($back);
+        }
 
         // получаем записи
-        $blogMessages = Message::getMessages(20);
+        $count = 5;
+        $blogMessages = Message::getMessages($count + 1, $id);
+
+        // изображения в серой гамме
+        if ($_GET['grey']) {
+            // проверяем наличие серого варианта изображения
+            foreach ($blogMessages as $k => $message) {
+                $image = $message['image'];
+                if ($image) {
+                    $image = Images::greyCreatOnce($image);
+                    $blogMessages[$k]['image'] = $image;
+                }
+            }
+        }
 
         return $this->view->render('Blog/index.phtml', [
             'user' => $this->user,
-            'blogMessages' => $blogMessages
+            'blogMessages' => $blogMessages,
+            'back' => $back,
+            'count' => $count
         ]);
     }
 
@@ -39,7 +67,7 @@ class Blog extends AbstractController
                 $filename = $filename->generateName();
 
                 if (move_uploaded_file($_FILES['photo']['tmp_name'], PROGECT_LOAD_DIR . "images/$filename")) {
-
+                    Images::loadResize($filename);
                 } else {
                     $this->view->assign('error','file not loaded');
                 }

@@ -10,6 +10,9 @@ use App\Model\User;
 <html>
 <head>
 <style>
+    body {
+        padding-left: 40px;
+    }
     .message {
         padding: 20px;
         width: 50%;
@@ -22,14 +25,19 @@ use App\Model\User;
         white-space: pre-wrap;
     }
     .message img {
-        width: 40%;
+        width: 100px;
         margin: 20px;
     }
+    form button {
+        margin-left: 10px;
+    }
+
 </style>
 </head>
 <body>
     <p>Вы вошли как <? echo $user->getName(); ?>
         <a href="/user/logout">Выйти</a>
+        <a href="/blog/?grey=1">Grey Image</a>
     </p>
     <? if ($message):?>
         <p style="color: green;">сообщение отправлено</p>
@@ -42,6 +50,12 @@ use App\Model\User;
         }
         // выводим сообщения
         if ($blogMessages) {
+            $sizemess = sizeof($blogMessages);
+            if ($sizemess > $count) {
+                array_shift($blogMessages);
+                $before = $blogMessages[0]['id'];
+                $beforeTxt = "<button type='submit' name='before' value='$before'> < </button>";
+            }
 
             foreach ($blogMessages as $k => $values) {
                 $postId = $values['id'];
@@ -69,7 +83,24 @@ use App\Model\User;
             }
         }
     ?>
-    <div style="margin: 40px;">
+    <form action="" method="post">
+        <? echo $beforeTxt; ?>
+
+        <input type="hidden" name="back[]" value="<? echo $postId; ?>" checked />
+
+        <? if (sizeof($back) > 0): ?>
+            <button type="submit" name="next" value="1"> > </button>
+        <? endif; ?>
+
+        <? if ($back) {
+            foreach ($back as $item) {
+                echo "<input type=\"hidden\" name=\"back[]\" value=\"$item\" checked />";
+            }
+        }
+        ?>
+    </form>
+
+    <div >
     <p>Добавить запись в блог</p>
         <form enctype="multipart/form-data" method="post" >
             <p>выберите изображение для вашего сообщения</p>

@@ -139,10 +139,17 @@ class Message extends AbstractModel
     }
 
     // получаем сообщения из базы
-    public static function getMessages($count)
+    public static function getMessages($count, $id)
     {
         $db = Db::getInstance();
-        $select = "SELECT * FROM (SELECT * FROM blog ORDER BY id DESC LIMIT $count) t ORDER BY id";
+        if ($id == 0) {
+            $select = "SELECT * FROM (SELECT * FROM blog ORDER BY id DESC LIMIT $count ) t ORDER BY id";
+        } else {
+            $select = "SELECT * FROM (SELECT * FROM blog 
+                WHERE id < $id 
+                ORDER BY id DESC 
+                LIMIT $count ) t ORDER BY id";
+        }
         $data = $db->fetchAll($select, __METHOD__);
 
         if (!$data) {

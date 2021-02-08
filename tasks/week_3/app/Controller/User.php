@@ -16,7 +16,7 @@ class User extends AbstractController
         if ($email) {
             $user = UserModel::getByEmail($email);
             if (!$user) {
-                $this->view->assign('error', 'не верный логин или пароль');
+                //$this->view->assign('error', 'не верный логин или пароль');
             } else {
                 if ($user->getPassword() != UserModel::getPasswordHash($password)) {
                     $this->view->assign('error', 'не верный логин или пароль');
@@ -96,8 +96,14 @@ class User extends AbstractController
     // получение данных пользователя
     public function profileAction()
     {
+        if(!$_GET['id'] && $this->user) {
+            $user = $this->user;
+        } elseif ($this->user && $_GET['id']) {
+            $user = UserModel::getById((int) $_GET['id']);
+        }
+
         return $this->view->render('User/profile.phtml', [
-            'user' => UserModel::getById((int) $_GET['id'])
+            'user' => $user
         ]);
     }
 

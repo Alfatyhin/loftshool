@@ -12,6 +12,7 @@ abstract class AbstractController
     /** @var Session */
     protected $session;
 
+    public $tpl;
 
     protected function redirect(string $url)
     {
@@ -36,6 +37,11 @@ abstract class AbstractController
     public function setSession(Session $session)
     {
         $this->session = $session;
+    }
+
+    public function preAction()
+    {
+
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
-
 namespace Core;
+
 
 class Application
 {
@@ -72,7 +72,8 @@ class Application
     {
         $controllerName = $this->route->getControllerName();
         if (!class_exists($controllerName)) {
-            throw new RedirectExeption('/notfound');
+            throw new RouteExeption('Controller [' . $controllerName . '] not found in ' . get_class($this->controller));
+            //throw new RedirectExeption('/notfound');
         }
 
         $this->controller = new $controllerName();
