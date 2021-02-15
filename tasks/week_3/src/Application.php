@@ -28,7 +28,8 @@ class Application
             $this->controller->setView($view);
             $this->controller->setSession($session);
             $this->initUser();
-            $session->setValue('test', '123');
+
+            $this->controller->preDispatch();
 
             $content = $this->controller->{$this->actionName}();
 
@@ -62,6 +63,8 @@ class Application
         $this->route->addRoute('/user/registeruser', \App\Controller\User::class, 'registerUser');
         /** @uses \App\Controller\Api::getUserMessagesAction() */
         $this->route->addRoute('/api/getusermessages', \App\Controller\Api::class, 'getUserMessages');
+
+        $this->route->addRoute('/admin', \App\Controller\Admin\Users::class, 'index');
        /** @uses \App\Controller\Index::notFound */
         $this->route->addRoute('/notfound', \App\Controller\Index::class, 'notFound');
 
@@ -72,8 +75,8 @@ class Application
     {
         $controllerName = $this->route->getControllerName();
         if (!class_exists($controllerName)) {
-            throw new RouteExeption('Controller [' . $controllerName . '] not found in ' . get_class($this->controller));
-            //throw new RedirectExeption('/notfound');
+            //throw new RouteExeption('Controller [' . $controllerName . '] not found in ' . get_class($this->controller));
+            throw new RedirectExeption('/notfound');
         }
 
         $this->controller = new $controllerName();
@@ -83,7 +86,8 @@ class Application
     {
         $actionName = $this->route->getActionName();
         if (!method_exists($this->controller, $actionName)) {
-            throw new RouteExeption('Action [' . $actionName . '] not found in ' . get_class($this->controller));
+            throw new RedirectExeption('/notfound');
+            //throw new RouteExeption('Action [' . $actionName . '] not found in ' . get_class($this->controller));
         }
 
         $this->actionName = $actionName;

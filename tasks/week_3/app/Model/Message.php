@@ -1,37 +1,22 @@
 <?php
 namespace App\Model;
 
-use Core\AbstractModel;
-use Core\Db;
+use Illuminate\Database\Eloquent\Model;
 
 /* функционал который надо реализовать
  * создает модель сообщения
  * записывает сообщение в базу
  */
 
-class Message extends AbstractModel
+class Message extends Model
 {
-    private $id;
-    private $text;
-    private $createDate;
-    private $useId;
-    private $image;
+    protected $table = 'posts';
+    protected $fillable = [
+        'content',
+        'user_id',
+        'image',
+    ];
 
-
-    // конструктор модели сообщения
-    // заполняется в контроллере Blog
-
-
-    public function __construct($data = [])
-    {
-        if ($data) {
-            $this->id = $data['id'];
-            $this->useId = $data['user_id'];
-            $this->text = $data['message_text'];
-            $this->createDate = $data['create_date'];
-            $this->image = $data['image'];
-        }
-    }
 
     /**
      * @return mixed
@@ -55,7 +40,7 @@ class Message extends AbstractModel
      */
     public function getText()
     {
-        return $this->text;
+        return $this->content;
     }
 
     /**
@@ -63,24 +48,7 @@ class Message extends AbstractModel
      */
     public function setText($text): self
     {
-        $this->text = $text;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDate()
-    {
-        return $this->createDate;
-    }
-
-    /**
-     * @param mixed $date
-     */
-    public function setDate($date): self
-    {
-        $this->createDate = $date;
+        $this->content = $text;
         return $this;
     }
 
@@ -89,7 +57,7 @@ class Message extends AbstractModel
      */
     public function getUseId()
     {
-        return $this->useId;
+        return $this->user_id;
     }
 
     /**
@@ -97,7 +65,7 @@ class Message extends AbstractModel
      */
     public function setUseId($useId): self
     {
-        $this->useId = $useId;
+        $this->user_id = $useId;
         return $this;
     }
 
@@ -118,82 +86,29 @@ class Message extends AbstractModel
         return $this;
     }
 
-    // сохраняем сообщение в базу
-    public function save()
-    {
-        $db = Db::getInstance();
-        $insert = "INSERT INTO blog (`user_id`, `message_text`, `image`, `create_date`) VALUES (
-        :user_id, :message_text , :image, :date
-        )";
-        $db->exec($insert, __METHOD__, [
-            ':user_id' => $this->useId,
-            ':message_text' => $this->text,
-            ':image' => $this->image,
-            ':date' => Date('Y-m-d H:i:s')
-        ]);
 
-        $id = $db->lastInsertId();
-        $this->id = $id;
-
-        return $id;
-    }
 
     // получаем сообщения из базы
     public static function getMessages($count, $id)
     {
-        $db = Db::getInstance();
-        if ($id == 0) {
-            $select = "SELECT * FROM (SELECT * FROM blog ORDER BY id DESC LIMIT $count ) t ORDER BY id";
+        if ($id != 0) {
+            return self::latest('id')->where('id', '<', $id)->take($count)->get()->toArray();
         } else {
-            $select = "SELECT * FROM (SELECT * FROM blog 
-                WHERE id < $id 
-                ORDER BY id DESC 
-                LIMIT $count ) t ORDER BY id";
+            return self::latest('id')->take($count)->get()->toArray();
         }
-        $data = $db->fetchAll($select, __METHOD__);
-
-        if (!$data) {
-            return null;
-        }
-
-        return $data;
     }
 
     // получаем сообщения пользователя из базы
     public static function getUserMessages(int $userId, int $limit)
     {
-        $db = Db::getInstance();
-        $select = "SELECT * FROM blog WHERE user_id = $userId LIMIT $limit";
-        $data = $db->fetchAll($select, __METHOD__);
-
-        if (!$data) {
-            return null;
-        }
-
-        return $data;
+       return self::latest('id')->where('user_id', '=', $userId)->take($limit)->get()->toArray();;
     }
 
     // функция удаления сообщения
     public static function deleteMessage($id)
     {
-        $db = Db::getInstance();
-        $select = "DELETE FROM blog Where id = $id";
-        $del = $db->exec($select, __METHOD__);
-
-        return $del;
+        return self::destroy($id);
     }
-
-    public function getData()
-    {
-        return [
-            'id' => $this->id,
-            'autor_id' => $this->useId,
-            'text' => $this->text,
-            'create_date' => $this->createDate,
-            //'image' => $this->image
-        ];
-    }
-
 
 
 }

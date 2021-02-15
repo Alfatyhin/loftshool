@@ -1,0 +1,142 @@
+<?php
+use App\Model\User;
+
+/** @var \App\Model\User $users */
+?>
+
+<html>
+<head>
+    <style>
+        body {
+            padding-left: 40px;
+        }
+        .user {
+            padding: 20px;
+            width: 50%;
+            border: 1px solid;
+        }
+        .user textarea {
+            width: 90%;
+            height: 50px;
+        }
+
+        .user img {
+            width: 100px;
+            margin: 20px;
+        }
+        form button {
+            margin-left: 10px;
+        }
+        .message {
+            text-shadow: 1px 1px 5px #000000,
+            1px 1px 5px #000000,
+            1px 1px 5px #000000;
+            padding: 5px;
+            padding-left: 20px;
+            background: #0f6674;
+            color: #ffffcc;
+        }
+        input {
+            margin-left: 40px;
+        }
+        .error {
+            color: #f30404;
+        }
+        .newUser {
+            padding: 20px;
+            width: 60%;
+            margin-top: 20px;
+            background: #dddddd;
+        }
+        img.avatar {
+            float: right;
+            display: inline-block;
+            border-radius: 50%;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+<p>Вы вошли как <? echo $user->getName(); ?>
+    || <a href="/blog">blog</a>
+    || <a href="/">home</a>
+    || <a href="/user/logout">Выйти</a> ||
+</p>
+
+
+
+<?
+if ($this->data['error']) {
+    echo '<span style="color: red;" >' . $this->data['error'] . '</span>';
+}
+
+if ($message) {
+    foreach ($message as $mess) {
+        echo "<p class='message'>$mess</p>";
+    }
+}
+?>
+
+<? if ($users): ?>
+<h1> список пользователей </h1>
+<? foreach ($users as $item): ?>
+
+    <div class="user" >
+        <form enctype="multipart/form-data" action="/admin" method="post">
+            <b><? echo $item['name']; ?> id = <? echo $item['id']; ?> date: <? echo $item['created_at'];?></b>
+            <? if(!empty($item['image'])): ?>
+                <img class="avatar" src="/loading/images/<?=$item['image'];?>" />
+            <? endif;?>
+            <p>
+                image:  <input type="file" name="photo">
+            </p>
+            <p>
+                name: <input type="text" name="name" value="<?=$item['name']; ?>" />
+            </p>
+            <p>
+                email: <input type="text" name="email" value="<?=$item['email']; ?>" />
+            </p>
+            <p>
+                info: <textarea type="text" name="info"><?=$item['info']; ?></textarea>
+            </p>
+            <p>
+                age: <input type="text" name="age" value="<?=$item['age']; ?>" />
+            </p>
+            <p>
+                password: <input type="text" name="password" value="" />
+            </p>
+            <input type="hidden" name="userId" value="<?=$item['id'];?>">
+            <hr>
+            <input type="submit" name="saveUser" value="сохранить" />
+            <? if($item['id'] != $user->id): ?>
+                <input type="submit" name="deleteUser" value="удалить" />
+            <? endif;?>
+        </form>
+    </div>
+
+<? endforeach; ?>
+<? endif;?>
+
+
+<div class="newUser" >
+    <p>Добавить пользователя</p>
+    <form enctype="multipart/form-data" method="post" >
+        <p>
+            image:  <input type="file" name="photo">
+        </p>
+        <p>
+            name: <input type="text" name="name" value="" />
+        </p>
+        <p>
+            email: <input type="text" name="email" value="" />
+        </p>
+        <p>
+            password: <input type="text" name="password" value="" />
+        </p>
+
+        <input type="submit" name="createUser" value="Добавить пользователя" formaction="/admin">
+
+    </form>
+</div>
+</body>
+</html>

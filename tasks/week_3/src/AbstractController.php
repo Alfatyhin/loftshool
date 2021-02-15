@@ -18,7 +18,20 @@ abstract class AbstractController
     {
         throw new RedirectExeption($url);
     }
+    public function getUser(): ?User
+    {
+        $userId = $this->session->getValue('id');
+        if (!$userId) {
+            return null;
+        }
 
+        $user = User::getById($userId);
+        if (!$user) {
+            return null;
+        }
+
+        return $user;
+    }
     public function setView(View $view)
     {
         $this->view = $view;
@@ -31,7 +44,7 @@ abstract class AbstractController
 
     public function indexAction()
     {
-        echo "this inexAction";
+
     }
 
     public function setSession(Session $session)
@@ -42,6 +55,14 @@ abstract class AbstractController
     public function preAction()
     {
 
+    }
+    public function preDispatch()
+    {
+        if ($this->getUser()) {
+            $this->view->assign([
+                'user' => $this->getUser()
+            ]);
+        }
     }
 
 }

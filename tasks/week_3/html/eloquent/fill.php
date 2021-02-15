@@ -26,15 +26,13 @@ $users = User::all();
 
 $images = array('0.52159300 1612270686-98450_Penguins.jpg', 'b8d800b5828f70a24363c530e3bac253.jpg', '0eafea1fbb8d6a6d1f85e9056e215e24.jpg');
 
+$sizeUsers = sizeof($users);
 
 foreach ($users as $user) {
-    $width=320;
-    $height=240;
     for($i=0;$i<5;$i++) {
         $post = new Post();
-        $post->title = $faker->title;
         $post->content = $faker->realText();
-        $post->user_id = $user->id;
+        $post->user_id = mt_rand(1, $sizeUsers);
         $post->image = $images[mt_rand(0,2)];
         $post->save();
     }

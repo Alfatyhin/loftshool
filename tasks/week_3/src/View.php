@@ -10,11 +10,13 @@ class View
     {
         $this->templatePath = PROGECT_ROOT_DIR . DIRECTORY_SEPARATOR . 'app/View';
     }
-
-    public function assign(string $email, $value)
+    public function assign($data)
     {
-        $this->data[$email] = $value;
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        }
     }
+
 
     public function render($tpl, $data = [])//: string
     {

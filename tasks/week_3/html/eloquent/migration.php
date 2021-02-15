@@ -21,7 +21,7 @@ Capsule::schema()->dropIfExists('posts');
 
 Capsule::schema()->create('posts', function (Blueprint $table) {
     $table->increments('id');
-    $table->string('title', 25); //varchar 255
+    $table->string('image', 255); //varchar 255
     $table->string('content'); //varchar 255
     $table->integer('user_id')->unsigned();
 //    $table->drop('title');
@@ -29,10 +29,10 @@ Capsule::schema()->create('posts', function (Blueprint $table) {
 });
 
 Capsule::schema()->table('users', function (Blueprint $table) {
-    $table->string('lastname')->default('');
+    $table->string('email')->default('');
 });
 Capsule::schema()->table('users', function (Blueprint $table) {
-    $table->string('email')->default('');
+    $table->string('image')->default('');
 });
 
 printLog();

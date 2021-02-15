@@ -34,6 +34,7 @@ class Blog extends AbstractController
         // count + 1 делается для того чтобы знать можно ли показывать кнопку листания назад
         $blogMessages = Message::getMessages($count + 1, $id);
 
+        $blogMessages = array_reverse($blogMessages);
         // изображения в серой гамме
         if ($_GET['grey']) {
             // проверяем наличие серого варианта изображения

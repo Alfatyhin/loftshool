@@ -3,7 +3,9 @@ define('PROGECT_ROOT_DIR', __DIR__ . DIRECTORY_SEPARATOR . '../');
 // root dir to load files
 define('PROGECT_LOAD_DIR', __DIR__ . DIRECTORY_SEPARATOR . '../html/loading/');
 // select users admins id
-define('PROGECT_ADMINS', array('3' => '1', '2' => '1'));
+define('PROGECT_ADMINS', [
+    '31' => '1'
+]);
 
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'mvc');

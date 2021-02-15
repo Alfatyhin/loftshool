@@ -1,30 +1,43 @@
 <?php
 namespace App\Model;
 
-use Core\AbstractModel;
-use Core\Db;
+use Illuminate\Database\Eloquent\Model;
+use Core\RandNameFile as RandNameFileAlias;
+use App\Controller\Images;
 
-class User extends AbstractModel
+/**
+ * Class User
+ * @package App\Model\Eloquent
+ *
+ * @property-read $id
+ * @property-read $password
+ * @property-read $name
+ */
+
+class User extends Model
 {
-    const GENDER_MALE = 1;
-    const GENDER_FEMALE =2;
-
-    private $id;
-    private $name;
-    private $password;
-    private $createDate;
-    private $email;
-
-    public function __construct($data = [])
+    protected $table = 'users';
+    protected $fillable = [
+            'name',
+            'password',
+            'email',
+            'image',
+    ];
+    public static function getByEmail(string $email): ? self
     {
-        if ($data) {
-            $this->id = $data['id'];
-            $this->name = $data['name'];
-            $this->password = $data['password'];
-            $this->email = $data['email'];
-            $this->createDate = $data['create_date'];
-        }
+        return self::query()->where('email', '=', $email)->first();
     }
+
+    public static function getById(int $id): ? self
+    {
+        return self::query()->find($id);
+    }
+
+    public static function getUsers()
+    {
+        return self::all()->toArray();
+    }
+
 
     /**
      * @return mixed
@@ -111,53 +124,6 @@ class User extends AbstractModel
         return $this;
     }
 
-    public function save()
-    {
-        $db = Db::getInstance();
-        $insert = "INSERT INTO users (`name`, `password`, `email`, `create_date`) VALUES (
-        :name, :password, :email, :date
-        )";
-        $db->exec($insert, __METHOD__, [
-            ':name' => $this->name,
-            ':password' => $this->password,
-            ':email' => $this->email,
-            ':date' => Date('Y-m-d H:i:s')
-        ]);
-
-        $id = $db->lastInsertId();
-        $this->id = $id;
-
-        return $id;
-    }
-
-    public static function getByEmail(string $email): ? self
-    {
-        $db = Db::getInstance();
-        $select = "SELECT * FROM users Where email = :email";
-
-        $data = $db->fetchOne($select, __METHOD__, [
-            ':email' => $email
-        ]);
-
-        if (!$data) {
-            return null;
-        }
-
-        return new self($data);
-    }
-
-    public static function getById(int $id): ? self
-    {
-        $db = Db::getInstance();
-        $select = "SELECT * FROM users Where id = $id";
-        $data = $db->fetchOne($select, __METHOD__);
-
-        if (!$data) {
-            return null;
-        }
-
-        return new self($data);
-    }
 
     public static function getPasswordHash(string $password)
     {
@@ -165,4 +131,67 @@ class User extends AbstractModel
     }
 
 
+    public function resolveChildRouteBinding($childType, $value, $field)
+    {
+        // TODO: Implement resolveChildRouteBinding() method.
+    }
+
+    public function isAdmin(): bool
+    {
+        return in_array($this->id, PROGECT_ADMINS);
+    }
+
+    public function saveUser($data)
+    {
+
+        if (!empty($data['password'])) {
+            if (mb_strlen($data['password']) < 5) {
+                return "<span class='error'>пароль слишком короткий</span>";
+            } else {
+                $this->password = self::getPasswordHash($data['password']);
+            }
+
+        }
+        if (empty($data['age'])) {
+            $data['age'] = 18;
+        }
+
+        $emailUser = User::getByEmail($data['email']);
+
+        if ($emailUser && $emailUser->id != $data['userId']) {
+            return "<span class='error'>пользователь с таким email уже существует</span>";
+        }
+
+        $this->name = $data['name'];
+        $this->email = $data['email'];
+        $this->info = $data['info'];
+        $this->age = $data['age'];
+
+        // прикрепляем картинку к посту
+        if (!empty($_FILES['photo']['tmp_name'])) {
+
+            $filename = new RandNameFileAlias($_FILES['photo']['name']);
+            $filename = $filename->generateName();
+
+            if (move_uploaded_file($_FILES['photo']['tmp_name'], PROGECT_LOAD_DIR . "images/$filename")) {
+                Images::loadResize($filename);
+                $this->image = $filename;
+            } else {
+                return "<span class='error'>file not loaded</span>";
+            }
+        }
+
+        $this->save();
+
+        return 'пользователь ' . $this->name . ' изименён.';
+    }
+
+    public function deleteUser()
+    {
+        if ($this->delete()) {
+            return "<span style='color: #00dd00;'>пользователь {$_POST['name']} удалён</span>";
+        } else {
+            return "<span class='error'>ошибка удаления</span>";
+        }
+    }
 }

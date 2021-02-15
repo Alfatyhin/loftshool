@@ -64,8 +64,8 @@ use App\Model\User;
 
             foreach ($blogMessages as $k => $values) {
                 $postId = $values['id'];
-                $text = $values['message_text'];
-                $date = $values['create_date'];
+                $text = $values['content'];
+                $date = $values['created_at'];
                 $imageUrl = $values['image'];
                 if ($imageUrl) {
                     $image = "<img src='/loading/images/$imageUrl' />";
@@ -75,7 +75,7 @@ use App\Model\User;
                 $userMessage = User::getById($values['user_id']);
                 $useName = $userMessage->getName();
 
-                if (PROGECT_ADMINS[$user->getId()]) {
+                if ($user->isAdmin()) {
                     $delButton = "<form action='/blog/delete' method='post'>
                         <input type='hidden' name='post_id' value='$postId' />
                         <input type='submit' name='delete' value=' УДАЛИТЬ ' /> 
