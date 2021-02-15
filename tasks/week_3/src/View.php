@@ -12,8 +12,10 @@ class View
     }
     public function assign($data)
     {
-        foreach ($data as $key => $value) {
-            $this->data[$key] = $value;
+        if (isset($data)) {
+            foreach ($data as $key => $value) {
+                $this->data[$key] = $value;
+            }
         }
     }
 

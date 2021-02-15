@@ -1,4 +1,6 @@
-<?php /** @var \App\Model\User $user */ ?>
+<?php /** @var \App\Model\User $user */
+
+?>
 
 <html>
     <head>
@@ -8,7 +10,11 @@
         
          <? if ($user): ?>
              <p> Вы вошли как <? echo $user->getName(); ?>
-                 || <a href='/blog'> перейти в блог </a> || <a href="/user/logout">Выйти</a>
+                 || <a href='/blog'> перейти в блог </a> ||
+                 <? if ($user->isAdmin()): ?>
+                     <a href="/admin">ADMIN</a> ||
+                 <? endif;?>
+                 <a href="/user/logout">Выйти</a> ||
              </p>
         <? endif; ?>
          <? if (!$user): ?>

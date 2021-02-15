@@ -19,7 +19,9 @@ class User extends AbstractController
                 //$this->view->assign('error', 'не верный логин или пароль');
             } else {
                 if ($user->getPassword() != UserModel::getPasswordHash($password)) {
-                    $this->view->assign('error', 'не верный логин или пароль');
+                    $this->view->assign([
+                        'error'=> 'не верный логин или пароль'
+                    ]);
                 }
                 $this->session->setValue('id', $user->getId());
 
@@ -41,18 +43,26 @@ class User extends AbstractController
 
 
             if (!$name || !$email || !$password || !$password2) {
-                $this->view->assign('error', 'не все поля заполнены');
+                $this->view->assign([
+                    'error' => 'error', 'не все поля заполнены'
+                ]);
             } else {
                 // проверяем что пароли совпадают
                 if (mb_strlen($password) < 5) {
-                    $this->view->assign('error', 'пароль слишком короткий');
+                    $this->view->assign([
+                        'error' => 'пароль слишком короткий'
+                    ]);
                 } elseif ($password2 != $password) {
-                    $this->view->assign('error', 'пароли не совпадают');
+                    $this->view->assign([
+                        'error' => 'error', 'пароли не совпадают'
+                    ]);
                 } else {
                     // проверка что пользователя с таким емейл нет
                     $userMail = UserModel::getByEmail($email);
                     if ($userMail) {
-                        $this->view->assign('error', 'этот емейл уже зарегистрирован');
+                        $this->view->assign([
+                            'error' => 'error', 'этот емейл уже зарегистрирован'
+                        ]);
                     } else {
                         $user = new UserModel();
                         $user->setName($name)
@@ -66,12 +76,16 @@ class User extends AbstractController
                         if ($userMail) {
                             $this->setUser($user);
 
-                            $this->view->assign('error', 'Вы успешно зарегистрировалисть');
+                            $this->view->assign([
+                                'error' => 'error', 'Вы успешно зарегистрировалисть'
+                            ]);
                             return $this->view->render('User/login.phtml', [
 
                             ]);
                         } else {
-                            $this->view->assign('error', 'ошибка создания пользователя');
+                            $this->view->assign([
+                                'error' => 'error', 'ошибка создания пользователя'
+                            ]);
                         }
                     }
 

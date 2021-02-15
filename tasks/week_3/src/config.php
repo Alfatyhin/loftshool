@@ -4,7 +4,7 @@ define('PROGECT_ROOT_DIR', __DIR__ . DIRECTORY_SEPARATOR . '../');
 define('PROGECT_LOAD_DIR', __DIR__ . DIRECTORY_SEPARATOR . '../html/loading/');
 // select users admins id
 define('PROGECT_ADMINS', [
-    '31' => '1'
+    '31'
 ]);
 
 define('DB_HOST', 'localhost');
