@@ -34,6 +34,9 @@ class ProductsController extends Controller
             $pageStart = $catalog->currentPage() -2;
         }
         $pageEnd = $pageStart + 4;
+        if ($pageEnd >= $catalog->lastPage()) {
+            $pageEnd = $catalog->lastPage();
+        }
 
         // получаем категории
         $category = Category::all();
