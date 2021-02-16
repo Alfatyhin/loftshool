@@ -11,37 +11,29 @@ class ProductsController extends Controller
     function index(Request $request)
     {
         $size = 6;
-
-        $pageStart = 1;
-        $pageActiv = 1;
-        $pageEnd = 5;
-
-        $categoryId = 0;
-
         $categoryName = 'All';
+        $pageStart = 1;
+        $categoryId = 0;
 
         if($request->categoryId) {
             $categoryId = (int) $request->categoryId;
         }
-        if($request->pageNum) {
-            $pageActiv = (int) $request->pageNum;
-        }
-        $pageNext = $pageActiv + 1;
-        $skip = ($pageActiv - 1) * $size;
 
         if ($categoryId == 0) {
             // получаем выборку товаров
-            $catalog = Products::latest('id')->skip($skip)->take($size)->get();
+            $catalog = Products::latest('id')->paginate($size);
 
         } else {
             $categoryName = $request->categoryName;
 
-            $catalog = Products::where('category', '=', $categoryId)
-                ->latest('id')
-                ->skip($skip)
-                ->take($size)
-                ->get();
+            $catalog = Products::where('category', '=', $categoryId)->paginate($size);
         }
+
+
+        if($catalog->currentPage() > 3) {
+            $pageStart = $catalog->currentPage() -2;
+        }
+        $pageEnd = $pageStart + 4;
 
         // получаем категории
         $category = Category::all();
@@ -52,9 +44,9 @@ class ProductsController extends Controller
             'catalog' => $catalog,
             'category' => $category,
             'pageStart' => $pageStart,
-            'pageActiv' => $pageActiv,
+            'pageActiv' => $catalog->currentPage(),
             'pageEnd'   => $pageEnd,
-            'pageNext' => $pageNext,
+            'pageNext' => $catalog->currentPage() + 1,
             'randomProduct' => $randomProduct,
             'categoryId' => $categoryId,
             'categoryName' => $categoryName

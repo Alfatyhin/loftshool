@@ -145,14 +145,14 @@
                     </div>
                     <div class="content-footer__container">
                         <ul class="page-nav">
-                            <li class="page-nav__item"><a href="{{route('category.list', ['pageNum' => 1, 'categoryName' => $categoryName, 'categoryId' => $categoryId])}}" class="page-nav__item__link"><i class="fa fa-angle-double-left"></i></a></li>
+                            <li class="page-nav__item"><a href="{{route('category.list', ['page' => 1, 'categoryName' => $categoryName, 'categoryId' => $categoryId])}}" class="page-nav__item__link"><i class="fa fa-angle-double-left"></i></a></li>
 
                             @for($x = $pageStart; $x <= $pageEnd; $x++)
 
-                            <li class="page-nav__item page_active_{{$x}}"><a href="{{route('category.list', ['pageNum' => $x, 'categoryName' => $categoryName, 'categoryId' => $categoryId])}}" class="page-nav__item__link">{{$x}}</a></li>
+                            <li class="page-nav__item page_active_{{$x}}"><a href="{{route('category.list', ['page' => $x, 'categoryName' => $categoryName, 'categoryId' => $categoryId])}}" class="page-nav__item__link">{{$x}}</a></li>
                             @endfor
 
-                            <li class="page-nav__item"><a href="{{route('category.list', ['pageNum' => $pageNext, 'categoryName' => $categoryName, 'categoryId' => $categoryId])}}" class="page-nav__item__link"><i class="fa fa-angle-double-right"></i></a></li>
+                            <li class="page-nav__item"><a href="{{route('category.list', ['page' => $pageNext, 'categoryName' => $categoryName, 'categoryId' => $categoryId])}}" class="page-nav__item__link"><i class="fa fa-angle-double-right"></i></a></li>
                         </ul>
                     </div>
                 </div>
