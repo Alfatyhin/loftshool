@@ -58,7 +58,6 @@ class ProductsController extends Controller
 
     function single(Products $product)
     {
-
         $categoryId = (int) $product->category;
         // получаем категорию
         $categoryOnce = Category::where('id', '=', $categoryId)->first();
@@ -76,8 +75,10 @@ class ProductsController extends Controller
             'product' => $product,
             'category' => $category,
             'catalog' => $catalog,
+            'categoryId' => $categoryId,
             'categoryName' => $categoryOnce->name,
-            'randomProduct' => $randomProduct
+            'randomProduct' => $randomProduct,
+            'action' => 'single'
         ]);
     }
 
