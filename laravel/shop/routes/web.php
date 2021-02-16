@@ -18,8 +18,20 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 
-Route::get('/', array(ProductsController::class, 'index'));
-Route::get('/single', array(ProductsController::class, 'single'));
+Route::get('/', [ProductsController::class, 'index'])
+    ->name('index');
+Route::get('/{categoryName}', [ProductsController::class, 'index'])
+    ->name('category.list');
+Route::get('/single/{product}', [ProductsController::class, 'single'])
+    ->name('single.view');
+
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+    Route::get('/single/edit/{product}', [ProductsController::class, 'edit'])
+        ->name('single.edit');
+    Route::get('/single/add', [ProductsController::class, 'add'])
+        ->name('single.add');
+});
+
 
 
 Route::get('/dashboard', function () {

@@ -22,13 +22,16 @@
         .page_active_{{$pageActiv}} a {
             color: brown;
         }
+        .category_{{$categoryId}} a {
+            color: brown;
+        }
     </style>
 </head>
 <body >
 <div class="main-wrapper">
 
         <header class="main-header">
-            <div class="logotype-container"><a href="/" class="logotype-link"><img src="img/logo.png" alt="Логотип"></a></div>
+            <div class="logotype-container"><a href="/" class="logotype-link"><img src="/img/logo.png" alt="Логотип"></a></div>
             <nav class="main-navigation">
                 <ul class="nav-list">
                     <li class="nav-list__item"><a href="/" class="nav-list__item__link">Главная</a></li>
@@ -73,7 +76,7 @@
                     <div class="sidebar-item__content">
                         <ul class="sidebar-category">
                             @foreach($category as $item)
-                                <li class="sidebar-category__item"><a href="/?catId={{$item->id}}" class="sidebar-category__item__link">{{$item->name}}</a></li>
+                                <li class="sidebar-category__item category_{{$item->id}}"><a href="{{route('category.list', ['categoryName' => $item->name, 'categoryId' => $item->id])}}" class="sidebar-category__item__link">{{$item->name}}</a></li>
                             @endforeach
                         </ul>
                     </div>
@@ -83,15 +86,15 @@
                     <div class="sidebar-item__content">
                         <div class="sidebar-news">
                             <div class="sidebar-news__item">
-                                <div class="sidebar-news__item__preview-news"><img src="img/cover/game-2.jpg" alt="image-new" class="sidebar-new__item__preview-new__image"></div>
+                                <div class="sidebar-news__item__preview-news"><img src="/img/cover/game-2.jpg" alt="image-new" class="sidebar-new__item__preview-new__image"></div>
                                 <div class="sidebar-news__item__title-news"><a href="#" class="sidebar-news__item__title-news__link">О новых играх в режиме VR</a></div>
                             </div>
                             <div class="sidebar-news__item">
-                                <div class="sidebar-news__item__preview-news"><img src="img/cover/game-1.jpg" alt="image-new" class="sidebar-new__item__preview-new__image"></div>
+                                <div class="sidebar-news__item__preview-news"><img src="/img/cover/game-1.jpg" alt="image-new" class="sidebar-new__item__preview-new__image"></div>
                                 <div class="sidebar-news__item__title-news"><a href="#" class="sidebar-news__item__title-news__link">О новых играх в режиме VR</a></div>
                             </div>
                             <div class="sidebar-news__item">
-                                <div class="sidebar-news__item__preview-news"><img src="img/cover/game-4.jpg" alt="image-new" class="sidebar-new__item__preview-new__image"></div>
+                                <div class="sidebar-news__item__preview-news"><img src="/img/cover/game-4.jpg" alt="image-new" class="sidebar-new__item__preview-new__image"></div>
                                 <div class="sidebar-news__item__title-news"><a href="#" class="sidebar-news__item__title-news__link">О новых играх в режиме VR</a></div>
                             </div>
                         </div>
@@ -103,7 +106,7 @@
             <div class="main-content">
                 <div class="content-top">
                     <div class="content-top__text">Купить игры неборого без регистрации смс с торента, получить компкт диск, скачать Steam игры после оплаты</div>
-                    <div class="slider"><img src="img/slider.png" alt="Image" class="image-main"></div>
+                    <div class="slider"><img src="/img/slider.png" alt="Image" class="image-main"></div>
                 </div>
                 <div class="content-middle">
                     <div class="content-head__container">
@@ -132,9 +135,9 @@
                             @foreach($catalog as $product)
 
                             <div class="products-columns__item">
-                                <div class="products-columns__item__title-product"><a href="/single/?id={{$product->id}}" class="products-columns__item__title-product__link">{{$product->name}}</a></div>
-                                <div class="products-columns__item__thumbnail"><a href="/single/?id={{$product->id}}" class="products-columns__item__thumbnail__link"><img src="{{$product->image}}" alt="Preview-image" class="products-columns__item__thumbnail__img"></a></div>
-                                <div class="products-columns__item__description"><span class="products-price">{{$product->price}} руб ({{$product->id}})</span><a href="/single/?id={{$product->id}}" class="btn btn-blue">Купить</a></div>
+                                <div class="products-columns__item__title-product"><a href="{{route('single.view', ['product' => $product])}}" class="products-columns__item__title-product__link">{{$product->name}}</a></div>
+                                <div class="products-columns__item__thumbnail"><a href="{{route('single.view', ['product' => $product])}}" class="products-columns__item__thumbnail__link"><img src="{{$product->image}}" alt="Preview-image" class="products-columns__item__thumbnail__img"></a></div>
+                                <div class="products-columns__item__description"><span class="products-price">{{$product->price}} руб ({{$product->id}})</span><a href="" class="btn btn-blue">Купить</a></div>
                             </div>
 
                             @endforeach
@@ -142,14 +145,14 @@
                     </div>
                     <div class="content-footer__container">
                         <ul class="page-nav">
-                            <li class="page-nav__item"><a href="/?pageNext={{$pageStart - 5}}&catId={{$categoryId}}#products" class="page-nav__item__link"><i class="fa fa-angle-double-left"></i></a></li>
+                            <li class="page-nav__item"><a href="{{route('category.list', ['pageNum' => 1, 'categoryName' => $categoryName, 'categoryId' => $categoryId])}}" class="page-nav__item__link"><i class="fa fa-angle-double-left"></i></a></li>
 
                             @for($x = $pageStart; $x <= $pageEnd; $x++)
 
-                            <li class="page-nav__item page_active_{{$x}}"><a href="/?pageStart={{$pageStart}}&page={{$x}}&catId={{$categoryId}}#products" class="page-nav__item__link">{{$x}}</a></li>
+                            <li class="page-nav__item page_active_{{$x}}"><a href="{{route('category.list', ['pageNum' => $x, 'categoryName' => $categoryName, 'categoryId' => $categoryId])}}" class="page-nav__item__link">{{$x}}</a></li>
                             @endfor
 
-                            <li class="page-nav__item"><a href="/?pageNext={{$x}}&catId={{$categoryId}}#products" class="page-nav__item__link"><i class="fa fa-angle-double-right"></i></a></li>
+                            <li class="page-nav__item"><a href="{{route('category.list', ['pageNum' => $pageNext, 'categoryName' => $categoryName, 'categoryId' => $categoryId])}}" class="page-nav__item__link"><i class="fa fa-angle-double-right"></i></a></li>
                         </ul>
                     </div>
                 </div>

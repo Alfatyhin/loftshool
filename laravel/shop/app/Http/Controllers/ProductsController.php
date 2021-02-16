@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-    function index()
+    function index(Request $request)
     {
         $size = 6;
 
@@ -16,37 +16,26 @@ class ProductsController extends Controller
         $pageActiv = 1;
         $pageEnd = 5;
 
-        if (!empty( $_GET['page'])) {
-            $pageActiv = (int) $_GET['page'];
-            $pageStart = (int) $_GET['pageStart'];
-            $pageEnd = $pageStart + 4;
-        }
-
-        // можно было бы обойтись листанием по страницам
-        // но мне понравилась идея возможпоти листать блоками
-        if (!empty( $_GET['pageNext'])) {
-
-            $pageStart = (int) $_GET['pageNext'];
-            if ($pageStart < 1) {
-                $pageStart = 1;
-            }
-            $pageActiv = $pageStart;
-            $pageEnd = $pageStart + 4;
-        }
-
-        $skip = ($pageActiv - 1) * $size;
-
         $categoryId = 0;
 
-        if (isset($_GET['catId'])) {
-            $categoryId = (int) $_GET['catId'];
+        $categoryName = 'All';
+
+        if($request->categoryId) {
+            $categoryId = (int) $request->categoryId;
         }
+        if($request->pageNum) {
+            $pageActiv = (int) $request->pageNum;
+        }
+        $pageNext = $pageActiv + 1;
+        $skip = ($pageActiv - 1) * $size;
 
         if ($categoryId == 0) {
             // получаем выборку товаров
             $catalog = Products::latest('id')->skip($skip)->take($size)->get();
 
         } else {
+            $categoryName = $request->categoryName;
+
             $catalog = Products::where('category', '=', $categoryId)
                 ->latest('id')
                 ->skip($skip)
@@ -65,20 +54,15 @@ class ProductsController extends Controller
             'pageStart' => $pageStart,
             'pageActiv' => $pageActiv,
             'pageEnd'   => $pageEnd,
+            'pageNext' => $pageNext,
             'randomProduct' => $randomProduct,
-            'categoryId' => $categoryId
+            'categoryId' => $categoryId,
+            'categoryName' => $categoryName
         ]);
     }
 
-    function single()
+    function single(Products $product)
     {
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-        } else {
-            $id = 1;
-        }
-        // получаем один товар
-        $product = Products::where('id', '=', $id)->first();
 
         $categoryId = (int) $product->category;
         // получаем категорию
