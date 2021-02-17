@@ -29,7 +29,6 @@ class ProductsController extends Controller
             $catalog = Products::where('category', '=', $categoryId)->paginate($size);
         }
 
-
         if($catalog->currentPage() > 3) {
             $pageStart = $catalog->currentPage() -2;
         }
@@ -81,6 +80,5 @@ class ProductsController extends Controller
             'action' => 'single'
         ]);
     }
-
 
 }

@@ -1,3 +1,16 @@
 body svg {
     height: 30px;
 }
+.container {
+    margin: auto;
+    margin-bottom: 20px;
+    width: 80%;
+}
+.alert-danger {
+    padding: 10px;
+    background: #ff8686;
+    width: fit-content;
+    text-shadow: 0px 0px 5px #f9f9f9;
+    border: 2px solid #d22b2b;
+    border-radius: 5px;
+}
