@@ -69,6 +69,7 @@
                             </td>
                             <td>
                                 <a class="button" href="{{route('admins.edit', ['product' => $item])}}" >edit</a>
+                                <a class="button" href="{{route('admins.delete', ['product' => $item])}}" >delete</a>
                             </td>
                         </tr>
 

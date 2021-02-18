@@ -81,4 +81,43 @@ class ProductsController extends Controller
         ]);
     }
 
+    function search(Request $request)
+    {
+        $size = 6;
+        $categoryName = 'All';
+        $pageStart = 1;
+        $categoryId = 0;
+
+        $find = '%' .  $request->search . '%';
+
+        $catalog = Products::where('name', 'like', $find)
+            ->orWhere('description', 'like', $find)
+            ->paginate($size);
+
+        if($catalog->currentPage() > 3) {
+            $pageStart = $catalog->currentPage() -2;
+        }
+        $pageEnd = $pageStart + 4;
+        if ($pageEnd >= $catalog->lastPage()) {
+            $pageEnd = $catalog->lastPage();
+        }
+
+
+        // получаем категории
+        $category = Category::all();
+        // случайный товар
+        $randomProduct = Products::inRandomOrder()->first();
+
+        return view('catalog.index', [
+            'catalog' => $catalog,
+            'category' => $category,
+            'pageStart' => $pageStart,
+            'pageActiv' => $catalog->currentPage(),
+            'pageEnd'   => $pageEnd,
+            'pageNext' => $catalog->currentPage() + 1,
+            'randomProduct' => $randomProduct,
+            'categoryId' => $categoryId,
+            'categoryName' => $categoryName
+        ]);
+    }
 }

@@ -126,6 +126,11 @@ class AdminsController extends Controller
         return redirect(route('admins.category'));
     }
 
+    function delete(Products $product)
+    {
+        $product->delete();
+        return redirect(route('admins.list'));
+    }
 
 
 }

@@ -19,7 +19,7 @@
         td {
             background: #ffffff;
         }
-        a.button {
+        .button {
             display: inline-block;
             padding: 2px 10px;
             background: #819ace;

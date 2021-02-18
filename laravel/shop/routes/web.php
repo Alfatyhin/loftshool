@@ -21,6 +21,8 @@ Route::get('/laravel', function () {
 
 Route::get('/', [ProductsController::class, 'index'])
     ->name('index');
+Route::post('/search', [ProductsController::class, 'search'])
+    ->name('search');
 Route::get('/category/{categoryName}', [ProductsController::class, 'index'])
     ->name('category.list');
 Route::get('/single/{product}', [ProductsController::class, 'single'])
@@ -37,6 +39,8 @@ Route::group(['prefix' => 'admins', 'middleware' => 'auth'], function () {
         ->name('admins.new');
     Route::get('/add', [AdminsController::class, 'add'])
         ->name('admins.add');
+    Route::get('/delete/{product}', [AdminsController::class, 'delete'])
+        ->name('admins.delete');
     Route::get('/category', [AdminsController::class, 'listCategory'])
         ->name('admins.category');
     Route::post('/category/new', [AdminsController::class, 'categoryNew'])
