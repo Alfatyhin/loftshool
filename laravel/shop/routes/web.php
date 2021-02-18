@@ -41,12 +41,14 @@ Route::get('/news/{news}', [NewsController::class, 'once'])
 // роуты для корзины
 Route::get('/basket/{product}', [BasketController::class, 'index'])
     ->name('basket.index');
+Route::get('/basket', [BasketController::class, 'index'])
+    ->name('basket.list');
 
 Route::post('/orders/save', [OrdersController::class, 'orderSave'])
     ->name('order.save');
 
-Route::get('/thankyou/', [OrdersController::class, 'thankYou'])
-    ->name('order.thankyou');
+Route::get('/request/', [OrdersController::class, 'request'])
+    ->name('order.request');
 
 
 
@@ -74,6 +76,7 @@ Route::group(['prefix' => 'admins', 'middleware' => 'auth'], function () {
 
 
 // сделан редирект на главную
+// не работает
 Route::get('/dashboard', function () {
     //return view('dashboard');
     redirect('/');

@@ -21,7 +21,7 @@
 @endsection
 
 @section('content')
-    
+
 
 @endsection
 

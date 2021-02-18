@@ -14,10 +14,17 @@ class UpdateOrderTable extends Migration
     public function up()
     {
 
+//        Schema::table('orders', function (Blueprint $table) {
+//            $table->string('name');
+//            $table->string('status');
+//            $table->string('note');
+//        });
+//        Schema::table('orders', function (Blueprint $table) {
+//            $table->string('orders')->text();
+//        });
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('name');
-            $table->string('status');
-            $table->string('note');
+            $table->text('orders')->change();
+            $table->string('note')->nullable()->change();
         });
     }
 

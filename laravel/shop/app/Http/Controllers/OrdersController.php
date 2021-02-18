@@ -17,11 +17,21 @@ class OrdersController extends Controller
 
         $orders = session('orders');
 
-        foreach ($orders as $item) {
-            $ordersid[] = $item->id;
+        if (empty($orders)) {
+            session()->flash('message', 'Корзина пуста');
+            return redirect(route('order.request'));
         }
 
-        $order->order_id = json_encode($ordersid);;
+        foreach ($orders as $item) {
+            $ordersid[] = $item->id;
+            $ordersItem[$item->id]['name'] = $item->name;
+            $ordersItem[$item->id]['image'] = $item->image;
+            $ordersItem[$item->id]['description'] = $item->description;
+            $ordersItem[$item->id]['price'] = $item->price;
+        }
+
+        $order->order_id = json_encode($ordersid);
+        $order->orders = json_encode($ordersItem);
         $order->name = $request->name;
         $order->email = $request->email;
         $order->status = 'in processing';
@@ -31,12 +41,14 @@ class OrdersController extends Controller
         // очищаем сессию
         session()->forget('orders');
 
-       return redirect(route('order.thankyou', ['message' => 'Ваш заказ принят, Спасибо.']));
+        session()->flash('message', 'Ваш заказ принят, Спасибо.');
+
+        return redirect(route('order.request'));
 
     }
 
-    function thankYou(Request $request) {
-        $message = $request->message;
+    function request(Request $request) {
+        $message = $value = session('message');
         // получаем категории
         $category = Category::all();
 

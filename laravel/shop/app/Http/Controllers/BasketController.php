@@ -12,8 +12,21 @@ class BasketController extends Controller
 {
     function index(Products $product, Request $request)
     {
-        session()->push('orders', $product);
-        $orders = session('orders');
+
+        if (!empty($product->id)) {
+            session()->push('orders', $product);
+        }
+
+
+        if (session()->has('orders'))
+        {
+            $orders = session('orders');
+        }
+
+        if (empty($orders)) {
+            session()->flash('message', 'Корзина пуста');
+            return redirect(route('order.request'));
+        }
 
         // получаем категории
         $category = Category::all();
@@ -23,7 +36,7 @@ class BasketController extends Controller
 
         $randomNews = News::inRandomOrder()->take(3)->get();
 
-        if ($request->user()->email) {
+        if (!empty($request->user()->email)) {
             $userMail = $request->user()->email;
         } else {
             $userMail = '';
