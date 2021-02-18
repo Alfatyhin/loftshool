@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\News;
 use App\Models\Products;
 use Illuminate\Http\Request;
 
@@ -42,9 +43,12 @@ class ProductsController extends Controller
         // случайный товар
         $randomProduct = Products::inRandomOrder()->first();
 
+        $randomNews = News::inRandomOrder()->take(3)->get();
+
         return view('catalog.index', [
             'catalog' => $catalog,
             'category' => $category,
+            'randomNews' => $randomNews,
             'pageStart' => $pageStart,
             'pageActiv' => $catalog->currentPage(),
             'pageEnd'   => $pageEnd,
@@ -70,9 +74,13 @@ class ProductsController extends Controller
         // получаем категории
         $category = Category::all();
 
+        $randomNews = News::inRandomOrder()->take(3)->get();
+
+
         return view('catalog.single', [
             'product' => $product,
             'category' => $category,
+            'randomNews' => $randomNews,
             'catalog' => $catalog,
             'categoryId' => $categoryId,
             'categoryName' => $categoryOnce->name,
@@ -108,9 +116,13 @@ class ProductsController extends Controller
         // случайный товар
         $randomProduct = Products::inRandomOrder()->first();
 
+        $randomNews = News::inRandomOrder()->take(3)->get();
+
+
         return view('catalog.index', [
             'catalog' => $catalog,
             'category' => $category,
+            'randomNews' => $randomNews,
             'pageStart' => $pageStart,
             'pageActiv' => $catalog->currentPage(),
             'pageEnd'   => $pageEnd,

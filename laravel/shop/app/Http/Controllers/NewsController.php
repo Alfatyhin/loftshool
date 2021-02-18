@@ -11,25 +11,12 @@ class NewsController extends Controller
 {
     function index(Request $request)
     {
-        $size = 2;
+        $size = 5;
         $categoryName = 'All';
         $pageStart = 1;
         $categoryId = 0;
 
-        if($request->categoryId) {
-            $categoryId = (int) $request->categoryId;
-        }
-
-        if ($categoryId == 0) {
-            // получаем выборку товаров
-            $news = News::latest('id')->paginate($size);
-
-        } else {
-            $categoryName = $request->categoryName;
-
-            $news = News::where('category', '=', $categoryId)->paginate($size);
-        }
-
+        $news = News::latest('id')->paginate($size);
 
         if($news->currentPage() > 3) {
             $pageStart = $news->currentPage() -2;
@@ -44,9 +31,12 @@ class NewsController extends Controller
         // случайный товар
         $randomProduct = Products::inRandomOrder()->first();
 
+        $randomNews = News::inRandomOrder()->take(3)->get();
+
         return view('news.index', [
             'content' => $news,
             'category' => $category,
+            'randomNews' => $randomNews,
             'pageStart' => $pageStart,
             'pageActiv' => $news->currentPage(),
             'pageEnd'   => $pageEnd,
@@ -63,15 +53,18 @@ class NewsController extends Controller
         // получаем категории
         $category = Category::all();
 
-        // три товара внизу ну пусть будут случайные из этогой же категории
+        // три товара внизу ну пусть будут случайные из этой же категории
         $catalog = Products::inRandomOrder()->take(3)->get();
 
         // случайный товар
         $randomProduct = Products::inRandomOrder()->first();
 
+        $randomNews = News::inRandomOrder()->take(3)->get();
+
         return view('news.once', [
             'content' => $news,
             'category' => $category,
+            'randomNews' => $randomNews,
             'catalog' => $catalog,
             'randomProduct' => $randomProduct,
         ]);
