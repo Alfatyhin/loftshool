@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminsController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/laravel', function () {
     return view('welcome');
 });
-
+// роуты для каталога
 Route::get('/', [ProductsController::class, 'index'])
     ->name('index');
 Route::post('/search', [ProductsController::class, 'search'])
@@ -28,6 +29,14 @@ Route::get('/category/{categoryName}', [ProductsController::class, 'index'])
 Route::get('/single/{product}', [ProductsController::class, 'single'])
     ->name('single.view');
 
+
+// роуты для новостей
+Route::get('/news', [NewsController::class, 'index'])
+    ->name('news.index');
+Route::get('/news/{news}', [NewsController::class, 'once'])
+    ->name('news.once');
+
+// роуты для админа, пока закрыты только авторизацией
 Route::group(['prefix' => 'admins', 'middleware' => 'auth'], function () {
     Route::get('/', [AdminsController::class, 'list'])
         ->name('admins.list');
@@ -50,9 +59,10 @@ Route::group(['prefix' => 'admins', 'middleware' => 'auth'], function () {
 });
 
 
-
+// сделан редирект на главную
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    //return view('dashboard');
+    redirect('/');
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';

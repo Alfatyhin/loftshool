@@ -2,34 +2,36 @@
 
 @section('title', 'Page Title')
 
+@section('style')
+    <style>
+        .news-content {
+            white-space: pre-line;
+        }
+    </style>
+@endsection
+
 @section('sidebar')
     @parent
 
 @endsection
 
 @section('content-title')
-    <div class="content-head__title-wrap__title bcg-title">
-        {{$product->name}} в разделе {{$categoryName}}
+    <div class="content-head__title-wrap">
+        <div class="content-head__title-wrap__title bcg-title">Новости</div>
     </div>
 @endsection
 
 @section('content')
     <div class="content-main__container">
-        <div class="product-container">
-            <div class="product-container__image-wrap"><img src="{{$product->image}}" class="image-wrap__image-product"></div>
-            <div class="product-container__content-text">
-                <div class="product-container__content-text__title">{{$product->name}}</div>
-                <div class="product-container__content-text__price">
-                    <div class="product-container__content-text__price__value">
-                        Цена: <b>{{$product->price}}</b>
-                        руб
-                    </div><a href="#" class="btn btn-blue">Купить</a>
-                </div>
-                <div class="product-container__content-text__description">
-                    <p>{{$product->description}}</p>
-                </div>
+        <div class="news-block content-text">
+            <h3 class="content-text__title">
+                «{{$content->name}}»
+            </h3><img src="{{$content->image}}" alt="Image" class="alignleft img-news">
+            <div class="news-content">
+                {{$content->description}}
             </div>
         </div>
+    </div>
     </div>
 
     <div class="content-bottom">
@@ -52,3 +54,4 @@
         </div>
     </div>
 @endsection
+

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Products;
+use App\Models\News;
 use Illuminate\Database\Seeder;
 
 class CatalogSeeder extends Seeder
@@ -14,6 +14,7 @@ class CatalogSeeder extends Seeder
      */
     public function run()
     {
-        Products::factory(100)->create();
+//        Products::factory(100)->create();
+        News::factory(20)->create();
     }
 }
