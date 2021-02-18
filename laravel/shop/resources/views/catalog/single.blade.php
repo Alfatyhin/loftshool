@@ -23,7 +23,7 @@
                     <div class="product-container__content-text__price__value">
                         Цена: <b>{{$product->price}}</b>
                         руб
-                    </div><a href="#" class="btn btn-blue">Купить</a>
+                    </div><a href="{{route('basket.index', ['product' => $product])}}" class="btn btn-blue">Купить</a>
                 </div>
                 <div class="product-container__content-text__description">
                     <p>{{$product->description}}</p>
@@ -45,7 +45,7 @@
                     <div class="products-columns__item">
                         <div class="products-columns__item__title-product"><a href="{{route('single.view', ['product' => $product])}}" class="products-columns__item__title-product__link">{{$product->name}}</a></div>
                         <div class="products-columns__item__thumbnail"><a href="{{route('single.view', ['product' => $product])}}" class="products-columns__item__thumbnail__link"><img src="{{$product->image}}" alt="Preview-image" class="products-columns__item__thumbnail__img"></a></div>
-                        <div class="products-columns__item__description"><span class="products-price">{{$product->price}} руб</span><a href="#" class="btn btn-blue">Купить</a></div>
+                        <div class="products-columns__item__description"><span class="products-price">{{$product->price}} руб</span><a href="{{route('single.view', ['product' => $product])}}" class="btn btn-blue">Купить</a></div>
                     </div>
                 @endforeach
             </div>

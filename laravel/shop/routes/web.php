@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminsController;
+use App\Http\Controllers\BasketController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +37,18 @@ Route::get('/news', [NewsController::class, 'index'])
     ->name('news.index');
 Route::get('/news/{news}', [NewsController::class, 'once'])
     ->name('news.once');
+
+// роуты для корзины
+Route::get('/basket/{product}', [BasketController::class, 'index'])
+    ->name('basket.index');
+
+Route::post('/orders/save', [OrdersController::class, 'orderSave'])
+    ->name('order.save');
+
+Route::get('/thankyou/', [OrdersController::class, 'thankYou'])
+    ->name('order.thankyou');
+
+
 
 // роуты для админа, пока закрыты только авторизацией
 Route::group(['prefix' => 'admins', 'middleware' => 'auth'], function () {

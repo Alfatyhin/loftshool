@@ -7,9 +7,6 @@
         .page_active_{{$pageActiv}} a {
             color: brown;
         }
-        .category_{{$categoryId}} a {
-            color: brown;
-        }
     </style>
 @endsection
 
@@ -38,7 +35,7 @@
                 <div class="products-columns__item">
                     <div class="products-columns__item__title-product"><a href="{{route('single.view', ['product' => $product])}}" class="products-columns__item__title-product__link">{{$product->name}}</a></div>
                     <div class="products-columns__item__thumbnail"><a href="{{route('single.view', ['product' => $product])}}" class="products-columns__item__thumbnail__link"><img src="{{$product->image}}" alt="Preview-image" class="products-columns__item__thumbnail__img"></a></div>
-                    <div class="products-columns__item__description"><span class="products-price">{{$product->price}} руб ({{$product->id}})</span><a href="" class="btn btn-blue">Купить</a></div>
+                    <div class="products-columns__item__description"><span class="products-price">{{$product->price}} руб ({{$product->id}})</span><a href="{{route('single.view', ['product' => $product])}}" class="btn btn-blue">Купить</a></div>
                 </div>
 
             @endforeach

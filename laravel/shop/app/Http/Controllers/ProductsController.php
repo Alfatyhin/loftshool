@@ -91,6 +91,7 @@ class ProductsController extends Controller
 
     function search(Request $request)
     {
+
         $size = 6;
         $categoryName = 'All';
         $pageStart = 1;
