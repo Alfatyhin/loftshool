@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderRequest;
-use App\Mail\newOrder;
+use App\Mail\NewOrder;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\Orders;
 use App\Models\Products;
 use Illuminate\Http\Request;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 
 class OrdersController extends Controller
 {
@@ -50,7 +50,7 @@ class OrdersController extends Controller
         $data['order'] = $ordersItem;
 
         // отправляем письмо
-        Mail::to(\Auth::user())->send(new newOrder(['order' => $data] ));
+//        Mail::to(\Auth::user())->send(new NewOrder(['order' => $data] ));
 
         return redirect(route('order.request'));
 
