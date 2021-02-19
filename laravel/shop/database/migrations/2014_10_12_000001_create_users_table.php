@@ -22,6 +22,10 @@ class CreateUsersTable extends Migration
 //            $table->rememberToken();
 //            $table->timestamps();
 //        });
+        // добавляем столбец для назначения ролей
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedSmallInteger('role')->nullable();
+        });
     }
 
     /**

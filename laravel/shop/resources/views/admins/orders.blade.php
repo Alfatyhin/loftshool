@@ -37,11 +37,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <h1 class="panel panel-default">list product</h1>
+                <h1 class="panel panel-default">list Orders</h1>
 
                 <a class="button" href="{{route('admins.add')}}" >add product</a>
                 <a class="button" href="{{route('admins.category')}}" >edit category</a>
                 <a class="button" href="{{route('admins.list')}}" >products</a>
+                <a class="button" href="{{route('admins.users')}}" >users</a>
                 <table >
                     <tr>
                         <th class="name">id date</th>

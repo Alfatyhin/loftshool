@@ -2,11 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class IsAdmin extends Middleware
+class AdminGroup extends Middleware
 {
     /**
      * Handle an incoming request.
@@ -17,6 +19,13 @@ class IsAdmin extends Middleware
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request->user()->admin);
+        /** @var User $user */
+
+        $user = Auth::user();
+
+        if (!$user || !$user->isAdmin()) {
+            //return redirect()->route('index');
+        }
+        return $next($request);
     }
 }

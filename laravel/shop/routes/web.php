@@ -5,6 +5,7 @@ use App\Http\Controllers\BasketController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Middleware\AdminGroup;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,29 +56,44 @@ Route::get('/request/', [OrdersController::class, 'request'])
 
 
 // роуты для админа, пока закрыты только авторизацией
-Route::group(['prefix' => 'admins', 'middleware' => 'auth'], function () {
+Route::group(array('prefix' => 'admins', 'middleware' => AdminGroup::class), function () {
     Route::get('/', [AdminsController::class, 'list'])
         ->name('admins.list');
+
     Route::get('/edit/{product}', [AdminsController::class, 'edit'])
         ->name('admins.edit');
+
     Route::post('/save/{product}', [AdminsController::class, 'save'])
         ->name('admins.save');
+
     Route::post('/new', [AdminsController::class, 'new'])
         ->name('admins.new');
+
     Route::get('/add', [AdminsController::class, 'add'])
         ->name('admins.add');
+
     Route::get('/delete/{product}', [AdminsController::class, 'delete'])
         ->name('admins.delete');
+
     Route::get('/category', [AdminsController::class, 'listCategory'])
         ->name('admins.category');
+
     Route::post('/category/new', [AdminsController::class, 'categoryNew'])
         ->name('admins.categoryNew');
+
     Route::post('/category/edit/{category}', [AdminsController::class, 'categoryEdit'])
         ->name('admins.categoryEdit');
 
 
     Route::get('/orders', [AdminsController::class, 'orders'])
         ->name('admins.orders');
+
+    Route::get('/users', [AdminsController::class, 'users'])
+        ->name('admins.users');
+    Route::get('/users/add/{user}', [AdminsController::class, 'adminAdd'])
+        ->name('admins.role.add');
+    Route::get('/users/delete/{user}', [AdminsController::class, 'adminDlete'])
+        ->name('admins.role.delete');
 });
 
 

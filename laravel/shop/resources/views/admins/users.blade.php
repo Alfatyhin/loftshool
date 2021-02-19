@@ -37,49 +37,45 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <h1 class="panel panel-default">list product</h1>
+                <h1 class="panel panel-default">list users</h1>
 
                 <a class="button" href="{{route('admins.add')}}" >add product</a>
                 <a class="button" href="{{route('admins.category')}}" >edit category</a>
                 <a class="button" href="{{route('admins.orders')}}" >orders</a>
-                <a class="button" href="{{route('admins.users')}}" >users</a>
-                    <table >
-                        <tr>
-                            <th>image</th>
-                            <th class="name">name</th>
-                            <th>category</th>
-                            <th>description</th>
-                            <th>price</th>
-                            <th></th>
-                        </tr>
-                    @foreach($catalog as $item)
+                <a class="button" href="{{route('admins.list')}}" >products</a>
+                <table >
+                    <tr>
+                        <th>id</th>
+                        <th class="name">name</th>
+                        <th>email</th>
+                        <th>role</th>
+                    </tr>
+                    @foreach($users as $item)
                         <tr>
                             <td>
-                                <img src="{{$item->image}}" />
+                                {{$item->id}}
                             </td>
                             <td>
                                 {{$item->name}}
                             </td>
                             <td>
-                                {{$category[$item->category]['name']}}
+                                {{$item->email}}
                             </td>
                             <td>
-                                {{$item->description}}
-                            </td>
-                            <td>
-                                {{$item->price}}
-                            </td>
-                            <td>
-                                <a class="button" href="{{route('admins.edit', ['product' => $item])}}" >edit</a>
-                                <a class="button" href="{{route('admins.delete', ['product' => $item])}}" >delete</a>
+                                @if($item->role != 1)
+                                    <a class="button" href="{{route('admins.role.add', ['user' => $item])}}" >сделать админом</a>
+                                @else
+                                    <a class="button" href="{{route('admins.role.delete', ['user' => $item])}}" >удалить админ права</a>
+                                @endif
                             </td>
                         </tr>
 
                     @endforeach
-                    </table>
-                    {{$catalog->links()}}
-                </div>
+                </table>
+                {{$users->links()}}
             </div>
         </div>
     </div>
+    </div>
 @endsection
+

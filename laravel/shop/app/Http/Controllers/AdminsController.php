@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Orders;
 use App\Models\Products;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminsController extends Controller
@@ -141,6 +142,29 @@ class AdminsController extends Controller
         return view('admins.orders', [
             'catalog'  => $orders,
         ]);
+    }
+
+    function users()
+    {
+        $users = User::paginate('10');
+
+
+
+        return view('admins.users', [
+            'users'  => $users,
+        ]);
+    }
+    function adminAdd(User $user)
+    {
+        $user->role = 1;
+        $user->save();
+        return redirect(route('admins.users'));
+    }
+    function adminDlete(User $user)
+    {
+        $user->role = 0;
+        $user->save();
+        return redirect(route('admins.users'));
     }
 
 }
