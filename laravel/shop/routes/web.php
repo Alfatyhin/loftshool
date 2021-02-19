@@ -72,14 +72,17 @@ Route::group(['prefix' => 'admins', 'middleware' => 'auth'], function () {
         ->name('admins.categoryNew');
     Route::post('/category/edit/{category}', [AdminsController::class, 'categoryEdit'])
         ->name('admins.categoryEdit');
+
+
+    Route::get('/orders', [AdminsController::class, 'orders'])
+        ->name('admins.orders');
 });
 
 
 // сделан редирект на главную
-// не работает
 Route::get('/dashboard', function () {
     //return view('dashboard');
-    redirect('/');
+    return redirect(route('index'));
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';

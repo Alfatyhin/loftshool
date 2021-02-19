@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
+use App\Models\Orders;
 use App\Models\Products;
 use Illuminate\Http\Request;
 
@@ -132,5 +133,14 @@ class AdminsController extends Controller
         return redirect(route('admins.list'));
     }
 
+    function orders()
+    {
+        $orders = Orders::latest('id')->paginate('10');
+        
+
+        return view('admins.orders', [
+            'catalog'  => $orders,
+        ]);
+    }
 
 }

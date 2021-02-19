@@ -41,44 +41,48 @@
 
                 <a class="button" href="{{route('admins.add')}}" >add product</a>
                 <a class="button" href="{{route('admins.category')}}" >edit category</a>
-                <a class="button" href="{{route('admins.orders')}}" >orders</a>
-                    <table >
-                        <tr>
-                            <th>image</th>
-                            <th class="name">name</th>
-                            <th>category</th>
-                            <th>description</th>
-                            <th>price</th>
-                            <th></th>
-                        </tr>
+                <a class="button" href="{{route('admins.list')}}" >products</a>
+                <table >
+                    <tr>
+                        <th class="name">id date</th>
+                        <th class="name">name</th>
+                        <th>email</th>
+                        <th>order_id</th>
+                        <th>orders</th>
+                        <th>status</th>
+                        <th></th>
+                    </tr>
                     @foreach($catalog as $item)
                         <tr>
                             <td>
-                                <img src="{{$item->image}}" />
+                                {{$item->id}} <br>
+                                {{$item->created_at}}
                             </td>
                             <td>
                                 {{$item->name}}
                             </td>
                             <td>
-                                {{$category[$item->category]['name']}}
+                                {{$item->email}}
                             </td>
                             <td>
-                                {{$item->description}}
+                                {{$item->order_id}}
                             </td>
                             <td>
-                                {{$item->price}}
+                                {{$item->orders}}
                             </td>
                             <td>
-                                <a class="button" href="{{route('admins.edit', ['product' => $item])}}" >edit</a>
-                                <a class="button" href="{{route('admins.delete', ['product' => $item])}}" >delete</a>
+                                {{$item->status}}
+                            </td>
+                            <td>
+                               {{$item->note}}
                             </td>
                         </tr>
 
                     @endforeach
-                    </table>
-                    {{$catalog->links()}}
-                </div>
+                </table>
+                {{$catalog->links()}}
             </div>
         </div>
+    </div>
     </div>
 @endsection

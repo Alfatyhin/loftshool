@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderRequest;
+use App\Mail\newOrder;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\Orders;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use Mail;
 
 class OrdersController extends Controller
 {
@@ -36,12 +38,19 @@ class OrdersController extends Controller
         $order->email = $request->email;
         $order->status = 'in processing';
         $order->note = 'новый заказ';
-        $order->save();
+        //$order->save();
 
         // очищаем сессию
         session()->forget('orders');
 
         session()->flash('message', 'Ваш заказ принят, Спасибо.');
+
+        // переменные письма заказчику
+        $data['name'] = $request->name;
+        $data['order'] = $ordersItem;
+
+        // отправляем письмо
+//        Mail::to(\Auth::user())->send(new newOrder(['order' => $data] ));
 
         return redirect(route('order.request'));
 
@@ -64,4 +73,6 @@ class OrdersController extends Controller
             'randomProduct' => $randomProduct,
         ]);
     }
+
+
 }
