@@ -8,7 +8,7 @@ use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminGroup extends Middleware
+class AdminGroup
 {
     /**
      * Handle an incoming request.
@@ -24,7 +24,7 @@ class AdminGroup extends Middleware
         $user = Auth::user();
 
         if (!$user || !$user->isAdmin()) {
-            //return redirect()->route('index');
+            return redirect()->route('index');
         }
         return $next($request);
     }
