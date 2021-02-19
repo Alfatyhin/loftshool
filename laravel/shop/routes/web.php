@@ -30,6 +30,8 @@ Route::get('/category/{categoryName}', [ProductsController::class, 'index'])
     ->name('category.list');
 Route::get('/single/{product}', [ProductsController::class, 'single'])
     ->name('single.view');
+Route::get('/aboot', [ProductsController::class, 'about'])
+    ->name('about');
 
 
 // роуты для новостей

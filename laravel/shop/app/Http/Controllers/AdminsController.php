@@ -136,7 +136,7 @@ class AdminsController extends Controller
     function orders()
     {
         $orders = Orders::latest('id')->paginate('10');
-        
+
 
         return view('admins.orders', [
             'catalog'  => $orders,

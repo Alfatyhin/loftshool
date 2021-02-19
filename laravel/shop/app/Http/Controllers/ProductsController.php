@@ -133,4 +133,23 @@ class ProductsController extends Controller
             'categoryName' => $categoryName
         ]);
     }
+
+    function about()
+    {
+        $catalog = Products::inRandomOrder()->take(3)->get();
+        // случайный товар
+        $randomProduct = Products::inRandomOrder()->first();
+
+        // получаем категории
+        $category = Category::all();
+
+        $randomNews = News::inRandomOrder()->take(3)->get();
+
+        return view('about', [
+            'category' => $category,
+            'catalog' => $catalog,
+            'randomNews' => $randomNews,
+            'randomProduct' => $randomProduct,
+        ]);
+    }
 }
