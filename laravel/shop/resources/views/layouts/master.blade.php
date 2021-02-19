@@ -47,6 +47,7 @@
                 <div class="authorization-block">
                     @if (Route::has('login'))
                         @auth
+                            <a href="{{ route('logout') }}" class="text-sm text-gray-700 underline">Выйти</a>
 
                         @else
                             @if (Route::has('register'))
