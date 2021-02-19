@@ -38,7 +38,7 @@ class OrdersController extends Controller
         $order->email = $request->email;
         $order->status = 'in processing';
         $order->note = 'новый заказ';
-        //$order->save();
+        $order->save();
 
         // очищаем сессию
         session()->forget('orders');
