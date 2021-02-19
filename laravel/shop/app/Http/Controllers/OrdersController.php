@@ -50,7 +50,7 @@ class OrdersController extends Controller
         $data['order'] = $ordersItem;
 
         // отправляем письмо
-//        Mail::to(\Auth::user())->send(new newOrder(['order' => $data] ));
+        Mail::to(\Auth::user())->send(new newOrder(['order' => $data] ));
 
         return redirect(route('order.request'));
 
