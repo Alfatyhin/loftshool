@@ -48,11 +48,10 @@
                     <tr>
                         <th class="name">name</th>
                         <th>description</th>
-                        <th></th>
                     </tr>
                     @foreach($category as $item)
                         <tr>
-                            <td colspan="3">
+                            <td colspan="2">
                                 <form action="{{route('admins.categoryEdit', ['category' => $item])}}" method="post" >
                                     @csrf
                                     <p>
@@ -69,7 +68,12 @@
                                             @endif
                                             </p>
 
-                                            <input type="submit" class="button" value="edit" />
+
+                                        <a href="{{route('admins.categoryDelete', ['category' => $item])}}" class="button">
+                                            delete
+                                        </a>
+                                        <input type="submit" class="button" value="save" />
+
                                 </form>
 
                             </td>

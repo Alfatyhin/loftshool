@@ -83,6 +83,8 @@ Route::group(array('prefix' => 'admins', 'middleware' => AdminGroup::class), fun
 
     Route::post('/category/edit/{category}', [AdminsController::class, 'categoryEdit'])
         ->name('admins.categoryEdit');
+    Route::get('/category/delete/{category}', [AdminsController::class, 'categoryDelete'])
+        ->name('admins.categoryDelete');
 
 
     Route::get('/orders', [AdminsController::class, 'orders'])
@@ -92,7 +94,7 @@ Route::group(array('prefix' => 'admins', 'middleware' => AdminGroup::class), fun
         ->name('admins.users');
     Route::get('/users/add/{user}', [AdminsController::class, 'adminAdd'])
         ->name('admins.role.add');
-    Route::get('/users/delete/{user}', [AdminsController::class, 'adminDlete'])
+    Route::get('/users/delete/{user}', [AdminsController::class, 'adminDelete'])
         ->name('admins.role.delete');
 });
 

@@ -127,6 +127,12 @@ class AdminsController extends Controller
 
         return redirect(route('admins.category'));
     }
+    function categoryDelete (Category $category)
+    {
+        $category->delete();
+
+        return redirect(route('admins.category'));
+    }
 
     function delete(Products $product)
     {
@@ -148,8 +154,6 @@ class AdminsController extends Controller
     {
         $users = User::paginate('10');
 
-
-
         return view('admins.users', [
             'users'  => $users,
         ]);
@@ -160,7 +164,7 @@ class AdminsController extends Controller
         $user->save();
         return redirect(route('admins.users'));
     }
-    function adminDlete(User $user)
+    function adminDelete(User $user)
     {
         $user->role = 0;
         $user->save();
