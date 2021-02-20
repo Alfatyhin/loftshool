@@ -17,7 +17,7 @@ class CatalogSeeder extends Seeder
      */
     public function run()
     {
-        Products::factory(100)->create();
+
         $category = array('Action', 'RPG', 'Квесты', 'Онлайн-игры', 'Стратегии');
         foreach ($category as $k => $name) {
             $insert = new Category();
@@ -26,6 +26,7 @@ class CatalogSeeder extends Seeder
             Est architecto possimus quasi et voluptatem esse. Dolore dolor est dolorum nisi. Architecto ipsum cum fuga quasi id in.';
             $insert->save();
         }
+        Products::factory(100)->create();
         News::factory(10)->create();
         User::factory(20)->create();
     }
