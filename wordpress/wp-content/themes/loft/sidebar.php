@@ -46,7 +46,29 @@
         </div>
 
     </div>
+    <?php else: ?>
+    <?php $news = get_the_category(get_queried_object()->term_id); ?>
+    <?php //var_dump($news); ?>
+        <div class="sidebar__sidebar-item">
+            <div class="sidebar-item__title">новости</div>
+
+            <div class="sidebar-item__content">
+                <ul class="category-list">
+                    <?php $posts = get_posts ("category=" .get_queried_object()->term_id ."&orderby=date&numberposts=10"); ?>
+                    <?php if ($posts) : ?>
+                        <?php foreach ($posts as $post) : setup_postdata ($post); ?>
+
+                    <li class="category-list__item">
+                        <a href="<?php the_permalink() ?>" rel="bookmark" class="category-list__item__link" ><?php the_title(); ?></a>
+                    </li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </ul>
+            </div>
+
+        </div>
     <?php endif; ?>
+
     <?php if ( is_active_sidebar( 'true_side' ) ) : ?>
 
         <div id="true-side" class="sidebar__sidebar-item">
