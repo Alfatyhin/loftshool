@@ -18,7 +18,12 @@
                     <?php the_title(); ?>
                 </div>
                 <div class="article-image">
-                   <?php the_post_thumbnail('full'); ?>
+                    <?php
+                        if(getChildCategoty(get_queried_object()->term_id)) {
+                            the_post_thumbnail('full');
+                        }
+                    ?>
+
                 </div>
                 <div class="article-info">
                     <div class="post-date"><?php the_time('d.m.Y'); ?></div>
