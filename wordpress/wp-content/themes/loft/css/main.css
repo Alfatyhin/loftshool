@@ -531,7 +531,7 @@ li {
   padding: 10px 10px 5px;
   margin-bottom: 35px; }
 
-.sidebar-item__title {
+.sidebar-item__title, .sidebar__sidebar-item .widget-title {
   font-size: 1.4rem;
   font-family: "Lato", sans-serif;
   color: #212121;
@@ -539,6 +539,48 @@ li {
   line-height: 1.4rem;
   text-transform: uppercase;
   margin: 10px 0; }
+
+#wp-calendar {
+  box-shadow: 4px 5px 10px #000;
+  width: 100%;
+  height: 175px;
+}
+#wp-calendar caption {
+  padding-bottom: 10px;
+}
+#wp-calendar td {
+  text-align: center;
+}
+#wp-calendar td a {
+  display: block;
+  width: 64%;
+  height: 60%;
+  position: relative;
+  left: 15%;
+  border-radius: 50%;
+  text-decoration: none;
+  text-align: center;
+  line-height: 20px;
+  padding-right: 2px;
+  background: #514b61;
+  color: #fff;
+}
+#today {
+  position: relative;
+  color: #2f5647;
+  font-weight: 600;
+}
+#today:before {
+  content: '';
+  display: block;
+  width: 80%;
+  height: 80%;
+  position: absolute;
+  top: 10%;
+  left: 11%;
+  border-radius: 50%;
+  box-shadow: 0 0 10px;
+}
 
 .tags-list {
   padding: 0; }

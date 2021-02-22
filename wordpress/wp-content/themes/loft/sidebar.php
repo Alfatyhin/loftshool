@@ -45,17 +45,16 @@
             </ul>
         </div>
 
-        <?php endif; ?>
-        
-        <?php if ( is_active_sidebar( 'true_side' ) ) : ?>
-
-            <div id="true-side" class="sidebar">
-
-                <?php dynamic_sidebar( 'true_side' ); ?>
-
-            </div>
-
     </div>
+    <?php endif; ?>
+    <?php if ( is_active_sidebar( 'true_side' ) ) : ?>
+
+        <div id="true-side" class="sidebar__sidebar-item">
+
+            <?php dynamic_sidebar( 'true_side' ); ?>
+
+        </div>
 
     <?php endif; ?>
+
 </div>
