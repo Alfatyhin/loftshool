@@ -53,6 +53,9 @@ Route::post('/orders/save', [OrdersController::class, 'orderSave'])
 Route::get('/request/', [OrdersController::class, 'request'])
     ->name('order.request');
 
+Route::get('/user/basket', [OrdersController::class, 'myOrders'])
+    ->name('user.basket');
+
 
 
 // роуты для админа, пока закрыты только авторизацией

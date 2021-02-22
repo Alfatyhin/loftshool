@@ -74,5 +74,38 @@ class OrdersController extends Controller
         ]);
     }
 
+    function myOrders(Request $request)
+    {
+
+        if (!$request->user) {
+            session()->flash('message', 'Просматривать заказы могут только авторизованные пользователи');
+
+            return redirect(route('order.request'));
+        }
+        $email = $request->user()->email;
+        $ordersUser = Orders::where('email', '=', $email)->paginate('10');
+
+        foreach ($ordersUser as $item) {
+            $createData = new \DateTime($item->created_at);
+            $data = $createData->format('Y-m-d');
+            $orders[$data] = json_decode($item->orders);
+        }
+
+        // получаем категории
+        $category = Category::all();
+
+        // случайный товар
+        $randomProduct = Products::inRandomOrder()->first();
+
+        $randomNews = News::inRandomOrder()->take(3)->get();
+
+
+        return view('catalog.userBasket', [
+            'content' => $orders,
+            'category' => $category,
+            'randomNews' => $randomNews,
+            'randomProduct' => $randomProduct,
+        ]);
+    }
 
 }

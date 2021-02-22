@@ -20,6 +20,8 @@ class ProductsController extends Controller
             $categoryId = (int) $request->categoryId;
         }
 
+
+
         if ($categoryId == 0) {
             // получаем выборку товаров
             $catalog = Products::latest('id')->paginate($size);
